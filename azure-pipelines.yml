@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'Anjal_Agent'
+  name: 'Anjal_Agent'
 
 variables:
   solution: '**/*.sln'
