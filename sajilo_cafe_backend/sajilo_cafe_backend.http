@@ -1,0 +1,6 @@
+@sajilo_cafe_backend_HostAddress = http://localhost:5239
+
+GET {{sajilo_cafe_backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

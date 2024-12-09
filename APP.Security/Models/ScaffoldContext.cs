@@ -1,0 +1,440 @@
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+
+namespace APP.Security.Models;
+
+public partial class ScaffoldContext : DbContext
+{
+    public ScaffoldContext()
+    {
+    }
+
+    public ScaffoldContext(DbContextOptions<ScaffoldContext> options)
+        : base(options)
+    {
+    }
+
+    public virtual DbSet<ClkStatus> ClkStatuses { get; set; }
+
+    public virtual DbSet<SecApplication> SecApplications { get; set; }
+
+    public virtual DbSet<SecFunction> SecFunctions { get; set; }
+
+    public virtual DbSet<SecMenu> SecMenus { get; set; }
+
+    public virtual DbSet<SecModule> SecModules { get; set; }
+
+    public virtual DbSet<SecModuleFunction> SecModuleFunctions { get; set; }
+
+    public virtual DbSet<SecRole> SecRoles { get; set; }
+
+    public virtual DbSet<SecUser> SecUsers { get; set; }
+
+    public virtual DbSet<SecUserRole> SecUserRoles { get; set; }
+
+    public virtual DbSet<SecUsersStatus> SecUsersStatuses { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseNpgsql("Host=localhost;Database=scaffold;Username=postgres;Password=heisahacker100");
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<ClkStatus>(entity =>
+        {
+            entity.HasKey(e => e.StatusId).HasName("clk_status_pk");
+
+            entity.ToTable("clk_status");
+
+            entity.HasIndex(e => e.StatusDesc, "clk_status_un").IsUnique();
+
+            entity.Property(e => e.StatusId)
+                .ValueGeneratedNever()
+                .HasColumnName("status_id");
+            entity.Property(e => e.IsActive)
+                .HasDefaultValue(0)
+                .HasColumnName("is_active");
+            entity.Property(e => e.IsVerif)
+                .HasDefaultValue(false)
+                .HasColumnName("is_verif");
+            entity.Property(e => e.StatusDesc)
+                .HasColumnType("character varying")
+                .HasColumnName("status_desc");
+            entity.Property(e => e.VerifDesc)
+                .HasMaxLength(100)
+                .HasColumnName("verif_desc");
+        });
+
+        modelBuilder.Entity<SecApplication>(entity =>
+        {
+            entity.HasKey(e => e.ApplicationId).HasName("sec_applications_pkey");
+
+            entity.ToTable("sec_applications");
+
+            entity.Property(e => e.ApplicationId)
+                .HasMaxLength(20)
+                .HasColumnName("application_id");
+            entity.Property(e => e.ApplicationDescription)
+                .HasMaxLength(100)
+                .HasColumnName("application_description");
+            entity.Property(e => e.EntryBy)
+                .HasMaxLength(30)
+                .HasColumnName("entry_by");
+            entity.Property(e => e.EntryDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("entry_date");
+            entity.Property(e => e.OrderCode).HasColumnName("order_code");
+        });
+
+        modelBuilder.Entity<SecFunction>(entity =>
+        {
+            entity.HasKey(e => e.FunCd).HasName("sec_functions_pkey");
+
+            entity.ToTable("sec_functions");
+
+            entity.HasIndex(e => e.StatusId, "uk_functions_status_id").IsUnique();
+
+            entity.Property(e => e.FunCd)
+                .HasMaxLength(2)
+                .HasColumnName("fun_cd");
+            entity.Property(e => e.EntryBy)
+                .HasMaxLength(30)
+                .HasColumnName("entry_by");
+            entity.Property(e => e.EntryDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("entry_date");
+            entity.Property(e => e.FunDesc)
+                .HasMaxLength(10)
+                .HasColumnName("fun_desc");
+            entity.Property(e => e.StatusId).HasColumnName("status_id");
+
+            entity.HasOne(d => d.Status).WithOne(p => p.SecFunction)
+                .HasForeignKey<SecFunction>(d => d.StatusId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_functions_status_id");
+        });
+
+        modelBuilder.Entity<SecMenu>(entity =>
+        {
+            entity.HasKey(e => e.MenuId).HasName("sec_menu_pkey");
+
+            entity.ToTable("sec_menu");
+
+            entity.Property(e => e.MenuId)
+                .ValueGeneratedNever()
+                .HasColumnName("menu_id");
+            entity.Property(e => e.HasChild)
+                .HasMaxLength(1)
+                .HasColumnName("has_child");
+            entity.Property(e => e.MUrl)
+                .HasMaxLength(200)
+                .HasColumnName("m_url");
+            entity.Property(e => e.MenuIcon)
+                .HasMaxLength(100)
+                .HasColumnName("menu_icon");
+            entity.Property(e => e.MenuText)
+                .HasMaxLength(50)
+                .HasColumnName("menu_text");
+            entity.Property(e => e.OrderNo).HasColumnName("order_no");
+            entity.Property(e => e.ParentId).HasColumnName("parent_id");
+            entity.Property(e => e.SecApl)
+                .HasMaxLength(1)
+                .HasColumnName("sec_apl");
+            entity.Property(e => e.ToolTip)
+                .HasMaxLength(100)
+                .HasColumnName("tool_tip");
+            entity.Property(e => e.UsedIn)
+                .HasMaxLength(4)
+                .HasColumnName("used_in");
+        });
+
+        modelBuilder.Entity<SecModule>(entity =>
+        {
+            entity.HasKey(e => new { e.ApplicationId, e.ModuleId }).HasName("sec_modules_pkey");
+
+            entity.ToTable("sec_modules");
+
+            entity.HasIndex(e => e.ApplicationId, "module_app_fk_i");
+
+            entity.Property(e => e.ApplicationId)
+                .HasMaxLength(20)
+                .HasColumnName("application_id");
+            entity.Property(e => e.ModuleId)
+                .HasMaxLength(50)
+                .HasColumnName("module_id");
+            entity.Property(e => e.EntryBy)
+                .HasMaxLength(30)
+                .HasColumnName("entry_by");
+            entity.Property(e => e.EntryDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("entry_date");
+            entity.Property(e => e.IsActive)
+                .HasDefaultValue(true)
+                .HasColumnName("is_active");
+            entity.Property(e => e.MOrderCode).HasColumnName("m_order_code");
+            entity.Property(e => e.McRestricted)
+                .HasMaxLength(1)
+                .HasColumnName("mc_restricted");
+            entity.Property(e => e.MenuId).HasColumnName("menu_id");
+            entity.Property(e => e.MenuName)
+                .HasMaxLength(100)
+                .HasColumnName("menu_name");
+            entity.Property(e => e.ModuleDescription)
+                .HasMaxLength(120)
+                .HasColumnName("module_description");
+            entity.Property(e => e.ModuleType)
+                .HasMaxLength(1)
+                .HasColumnName("module_type");
+            entity.Property(e => e.UsesBy)
+                .HasMaxLength(4)
+                .HasColumnName("uses_by");
+
+            entity.HasOne(d => d.Application).WithMany(p => p.SecModules)
+                .HasForeignKey(d => d.ApplicationId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("sec_modules_application_id_fkey");
+
+            entity.HasOne(d => d.Menu).WithMany(p => p.SecModules)
+                .HasForeignKey(d => d.MenuId)
+                .HasConstraintName("sec_modules_menu_id_fkey");
+        });
+
+        modelBuilder.Entity<SecModuleFunction>(entity =>
+        {
+            entity.HasKey(e => new { e.ApplicationId, e.ModuleId, e.FunCd }).HasName("sec_module_functions_pkey");
+
+            entity.ToTable("sec_module_functions");
+
+            entity.Property(e => e.ApplicationId)
+                .HasMaxLength(20)
+                .HasColumnName("application_id");
+            entity.Property(e => e.ModuleId)
+                .HasMaxLength(50)
+                .HasColumnName("module_id");
+            entity.Property(e => e.FunCd)
+                .HasMaxLength(2)
+                .HasColumnName("fun_cd");
+            entity.Property(e => e.EntryBy)
+                .HasMaxLength(30)
+                .HasColumnName("entry_by");
+            entity.Property(e => e.EntryDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("entry_date");
+
+            entity.HasOne(d => d.Application).WithMany(p => p.SecModuleFunctions)
+                .HasForeignKey(d => d.ApplicationId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("sec_module_functions_application_id_fkey1");
+
+            entity.HasOne(d => d.FunCdNavigation).WithMany(p => p.SecModuleFunctions)
+                .HasForeignKey(d => d.FunCd)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("sec_module_functions_fun_cd_fkey");
+
+            entity.HasOne(d => d.SecModule).WithMany(p => p.SecModuleFunctions)
+                .HasForeignKey(d => new { d.ApplicationId, d.ModuleId })
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("sec_module_functions_fk");
+        });
+
+        modelBuilder.Entity<SecRole>(entity =>
+        {
+            entity.HasKey(e => new { e.ApplicationId, e.RoleId }).HasName("sec_roles_pkey");
+
+            entity.ToTable("sec_roles");
+
+            entity.HasIndex(e => e.ApplicationId, "role_app_fk_i");
+
+            entity.Property(e => e.ApplicationId)
+                .HasMaxLength(20)
+                .HasColumnName("application_id");
+            entity.Property(e => e.RoleId)
+                .HasMaxLength(30)
+                .HasColumnName("role_id");
+            entity.Property(e => e.DbRole)
+                .HasMaxLength(30)
+                .HasColumnName("db_role");
+            entity.Property(e => e.EntryBy)
+                .HasMaxLength(30)
+                .HasColumnName("entry_by");
+            entity.Property(e => e.EntryDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("entry_date");
+            entity.Property(e => e.RoleDescription)
+                .HasMaxLength(120)
+                .HasColumnName("role_description");
+
+            entity.HasOne(d => d.Application).WithMany(p => p.SecRoles)
+                .HasForeignKey(d => d.ApplicationId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("sec_roles_application_id_fkey");
+        });
+
+        modelBuilder.Entity<SecUser>(entity =>
+        {
+            entity.HasKey(e => e.UserId).HasName("sec_users_pkey");
+
+            entity.ToTable("sec_users");
+
+            entity.Property(e => e.UserId)
+                .HasColumnType("character varying")
+                .HasColumnName("user_id");
+            entity.Property(e => e.AuthBy)
+                .HasMaxLength(100)
+                .HasColumnName("auth_by");
+            entity.Property(e => e.AuthDate)
+                .HasMaxLength(10)
+                .HasColumnName("auth_date");
+            entity.Property(e => e.AuthNo)
+                .HasMaxLength(50)
+                .HasColumnName("auth_no");
+            entity.Property(e => e.CreatedBy)
+                .HasMaxLength(20)
+                .HasColumnName("created_by");
+            entity.Property(e => e.CreatedDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("created_date");
+            entity.Property(e => e.Email)
+                .HasMaxLength(150)
+                .HasColumnName("email");
+            entity.Property(e => e.EmpName)
+                .HasMaxLength(120)
+                .HasColumnName("emp_name");
+            entity.Property(e => e.IpAddress)
+                .HasMaxLength(50)
+                .HasColumnName("ip_address");
+            entity.Property(e => e.IsLoggedIn)
+                .HasDefaultValue(false)
+                .HasColumnName("is_logged_in");
+            entity.Property(e => e.LastLoggedIn)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("last_logged_in");
+            entity.Property(e => e.LogInExpireTime)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("log_in_expire_time");
+            entity.Property(e => e.Machine)
+                .HasMaxLength(50)
+                .HasColumnName("machine");
+            entity.Property(e => e.Office)
+                .HasMaxLength(20)
+                .HasColumnName("office");
+            entity.Property(e => e.Remarks)
+                .HasMaxLength(200)
+                .HasColumnName("remarks");
+            entity.Property(e => e.Status)
+                .HasMaxLength(5)
+                .HasColumnName("status");
+            entity.Property(e => e.TranDate)
+                .HasMaxLength(10)
+                .HasColumnName("tran_date");
+            entity.Property(e => e.UserName)
+                .HasMaxLength(120)
+                .HasColumnName("user_name");
+            entity.Property(e => e.UserPassword)
+                .HasMaxLength(100)
+                .HasColumnName("user_password");
+        });
+
+        modelBuilder.Entity<SecUserRole>(entity =>
+        {
+            entity.HasKey(e => new { e.ApplicationId, e.UserId, e.RoleId, e.FromDate }).HasName("sec_user_roles_pkey");
+
+            entity.ToTable("sec_user_roles");
+
+            entity.HasIndex(e => new { e.ApplicationId, e.RoleId }, "ur_role_fk_i");
+
+            entity.HasIndex(e => e.UserId, "ur_user_1_fk_i");
+
+            entity.Property(e => e.ApplicationId)
+                .HasMaxLength(20)
+                .HasColumnName("application_id");
+            entity.Property(e => e.UserId)
+                .HasMaxLength(30)
+                .HasColumnName("user_id");
+            entity.Property(e => e.RoleId)
+                .HasMaxLength(30)
+                .HasColumnName("role_id");
+            entity.Property(e => e.FromDate)
+                .HasMaxLength(10)
+                .HasColumnName("from_date");
+            entity.Property(e => e.AuthBy)
+                .HasMaxLength(100)
+                .HasColumnName("auth_by");
+            entity.Property(e => e.AuthDate)
+                .HasMaxLength(10)
+                .HasColumnName("auth_date");
+            entity.Property(e => e.AuthNo)
+                .HasMaxLength(50)
+                .HasColumnName("auth_no");
+            entity.Property(e => e.EntryBy)
+                .HasMaxLength(30)
+                .HasColumnName("entry_by");
+            entity.Property(e => e.RoleSeq).HasColumnName("role_seq");
+            entity.Property(e => e.ToDate)
+                .HasMaxLength(10)
+                .HasColumnName("to_date");
+            entity.Property(e => e.TranDate)
+                .HasMaxLength(10)
+                .HasColumnName("tran_date");
+
+            entity.HasOne(d => d.Application).WithMany(p => p.SecUserRoles)
+                .HasForeignKey(d => d.ApplicationId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("sec_user_roles_application_id_fkey");
+
+            entity.HasOne(d => d.User).WithMany(p => p.SecUserRoles)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("sec_user_roles_user_id_fkey");
+
+            entity.HasOne(d => d.SecRole).WithMany(p => p.SecUserRoles)
+                .HasForeignKey(d => new { d.ApplicationId, d.RoleId })
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("sec_user_roles_fk");
+        });
+
+        modelBuilder.Entity<SecUsersStatus>(entity =>
+        {
+            entity.HasKey(e => new { e.UserId, e.UserStatus, e.FromDate, e.SeqNo }).HasName("sec_users_status_pkey");
+
+            entity.ToTable("sec_users_status");
+
+            entity.Property(e => e.UserId)
+                .HasMaxLength(30)
+                .HasColumnName("user_id");
+            entity.Property(e => e.UserStatus)
+                .HasMaxLength(1)
+                .HasColumnName("user_status");
+            entity.Property(e => e.FromDate)
+                .HasColumnType("character varying")
+                .HasColumnName("from_date");
+            entity.Property(e => e.SeqNo).HasColumnName("seq_no");
+            entity.Property(e => e.AuthBy)
+                .HasMaxLength(100)
+                .HasColumnName("auth_by");
+            entity.Property(e => e.AuthDate)
+                .HasMaxLength(10)
+                .HasColumnName("auth_date");
+            entity.Property(e => e.AuthNo)
+                .HasMaxLength(50)
+                .HasColumnName("auth_no");
+            entity.Property(e => e.EntryBy)
+                .HasMaxLength(30)
+                .HasColumnName("entry_by");
+            entity.Property(e => e.EntryDate).HasColumnName("entry_date");
+            entity.Property(e => e.ToDate)
+                .HasMaxLength(10)
+                .HasColumnName("to_date");
+
+            entity.HasOne(d => d.User).WithMany(p => p.SecUsersStatuses)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("sec_users_status_user_id_fkey");
+        });
+
+        OnModelCreatingPartial(modelBuilder);
+    }
+
+    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+}
