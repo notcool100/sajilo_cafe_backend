@@ -10,7 +10,7 @@ pool:
   name: 'Anjal_Agent'
 
 variables:
-  solution: '**/*.sln'
+  solution: 'sajilo_cafe_backend.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
