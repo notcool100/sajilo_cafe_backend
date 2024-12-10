@@ -10,7 +10,7 @@ using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using APP.COMMON;
 using Dapper;
-using APP.Security.Models;
+using APP.Security.Models.Users;
 
 namespace APP.Security.Repo.Implimantation
 {

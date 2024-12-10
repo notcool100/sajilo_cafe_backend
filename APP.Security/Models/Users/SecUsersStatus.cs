@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace APP.Security.Models;
+namespace APP.Security.Models.Users;
 
 public partial class SecUsersStatus
 {
-    public string UserId { get; set; } = null!;
+    public int UserId { get; set; }
 
     public string UserStatus { get; set; } = null!;
 

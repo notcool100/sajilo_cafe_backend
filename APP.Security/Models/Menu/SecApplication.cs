@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using APP.Security.Models.Cafe;
+using APP.Security.Models.Staff;
 
-namespace APP.Security.Models;
+namespace APP.Security.Models.Menu;
 
 public partial class SecApplication
 {
@@ -21,5 +23,5 @@ public partial class SecApplication
 
     public virtual ICollection<SecRole> SecRoles { get; set; } = new List<SecRole>();
 
-    public virtual ICollection<SecUserRole> SecUserRoles { get; set; } = new List<SecUserRole>();
+    public virtual ICollection<SecStaffRole> SecStaffRoles { get; set; } = new List<SecStaffRole>();
 }

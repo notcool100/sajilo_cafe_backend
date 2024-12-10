@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace APP.Security.Models;
+namespace APP.Security.Models.Menu;
 
 public partial class SecModuleFunction
 {

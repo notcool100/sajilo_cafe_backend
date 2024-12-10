@@ -6,7 +6,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using APP.COMMON;
 using APP.Security;
 using APP.Security.Repo.Implimantation;
-using APP.Security.Models;
+using APP.Security.Models.Users;
 
 namespace sajilo_cafe_backend.Controllers.security
 {

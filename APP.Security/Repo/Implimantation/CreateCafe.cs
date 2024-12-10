@@ -12,7 +12,7 @@ using APP.COMMON;
 using Dapper;
 using APP.Security.Repo.Interface;
 using Npgsql;
-using APP.Security.Models;
+using APP.Security.Models.Users;
 
 namespace APP.Security.Repo.Implimantation
 {

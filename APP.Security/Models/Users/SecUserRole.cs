@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using APP.Security.Models.Cafe;
+using APP.Security.Models.Menu;
 
-namespace APP.Security.Models;
+namespace APP.Security.Models.Users;
 
 public partial class SecUserRole
 {

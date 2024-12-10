@@ -1,21 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using APP.Security.Models.Cafe;
+using APP.Security.Models.Menu;
+using APP.Security.Models.Staff;
+using APP.Security.Models.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace APP.Security.Models;
 
-public partial class ScaffoldContext : DbContext
+public partial class SajiloDevContext : DbContext
 {
-    public ScaffoldContext()
+    public SajiloDevContext()
     {
     }
 
-    public ScaffoldContext(DbContextOptions<ScaffoldContext> options)
+    public SajiloDevContext(DbContextOptions<SajiloDevContext> options)
         : base(options)
     {
     }
 
+    public virtual DbSet<CafeM> Cafe { get; set; }
+
+    public virtual DbSet<Cafestaff> Cafestaffs { get; set; }
+
     public virtual DbSet<ClkStatus> ClkStatuses { get; set; }
+
+    public virtual DbSet<Credittransaction> Credittransactions { get; set; }
 
     public virtual DbSet<SecApplication> SecApplications { get; set; }
 
@@ -29,23 +39,78 @@ public partial class ScaffoldContext : DbContext
 
     public virtual DbSet<SecRole> SecRoles { get; set; }
 
-    public virtual DbSet<SecUser> SecUsers { get; set; }
+    public virtual DbSet<SecStaffRole> SecStaffRoles { get; set; }
 
-    public virtual DbSet<SecUserRole> SecUserRoles { get; set; }
+    public virtual DbSet<SecUser> SecUsers { get; set; }
 
     public virtual DbSet<SecUsersStatus> SecUsersStatuses { get; set; }
 
+    public virtual DbSet<Subscription> Subscriptions { get; set; }
+
+    public virtual DbSet<Subscription1> Subscriptions1 { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("Host=localhost;Database=scaffold;Username=postgres;Password=heisahacker100");
+        => optionsBuilder.UseNpgsql("Host=localhost;Database=sajilo_dev;Username=postgres;Password=heisahacker100");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<CafeM>(entity =>
+        {
+            entity.HasKey(e => e.Cafeid).HasName("cafe_pkey");
+
+            entity.ToTable("cafe", "security");
+
+            entity.Property(e => e.Cafeid).HasColumnName("cafeid");
+            entity.Property(e => e.Address).HasColumnName("address");
+            entity.Property(e => e.CafeLogo).HasColumnName("cafe_logo");
+            entity.Property(e => e.Cafename)
+                .HasMaxLength(150)
+                .HasColumnName("cafename");
+            entity.Property(e => e.Createdat)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("createdat");
+            entity.Property(e => e.Subscriptionid).HasColumnName("subscriptionid");
+
+            entity.HasOne(d => d.Subscription).WithMany(p => p.Caves)
+                .HasForeignKey(d => d.Subscriptionid)
+                .HasConstraintName("cafe_subscriptionid_fkey");
+        });
+
+        modelBuilder.Entity<Cafestaff>(entity =>
+        {
+            entity.HasKey(e => e.Staffid).HasName("cafestaff_pkey");
+
+            entity.ToTable("cafestaff", "security");
+
+            entity.Property(e => e.Staffid).HasColumnName("staffid");
+            entity.Property(e => e.Cafeid).HasColumnName("cafeid");
+            entity.Property(e => e.Createdat)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("createdat");
+            entity.Property(e => e.Enddate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("enddate");
+            entity.Property(e => e.Isactive)
+                .HasDefaultValue(true)
+                .HasColumnName("isactive");
+            entity.Property(e => e.Startdate)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("startdate");
+
+            entity.HasOne(d => d.Cafe).WithMany(p => p.Cafestaffs)
+                .HasForeignKey(d => d.Cafeid)
+                .HasConstraintName("cafestaff_cafeid_fkey");
+        });
+
         modelBuilder.Entity<ClkStatus>(entity =>
         {
             entity.HasKey(e => e.StatusId).HasName("clk_status_pk");
 
-            entity.ToTable("clk_status");
+            entity.ToTable("clk_status", "security");
 
             entity.HasIndex(e => e.StatusDesc, "clk_status_un").IsUnique();
 
@@ -66,11 +131,36 @@ public partial class ScaffoldContext : DbContext
                 .HasColumnName("verif_desc");
         });
 
+        modelBuilder.Entity<Credittransaction>(entity =>
+        {
+            entity.HasKey(e => e.Transactionid).HasName("credittransactions_pkey");
+
+            entity.ToTable("credittransactions", "account");
+
+            entity.Property(e => e.Transactionid).HasColumnName("transactionid");
+            entity.Property(e => e.Amount)
+                .HasPrecision(10, 2)
+                .HasColumnName("amount");
+            entity.Property(e => e.Cafeid).HasColumnName("cafeid");
+            entity.Property(e => e.Note)
+                .HasMaxLength(255)
+                .HasColumnName("note");
+            entity.Property(e => e.Orderid).HasColumnName("orderid");
+            entity.Property(e => e.Transactiondate)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("transactiondate");
+            entity.Property(e => e.Transactiontype)
+                .HasMaxLength(50)
+                .HasColumnName("transactiontype");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+        });
+
         modelBuilder.Entity<SecApplication>(entity =>
         {
             entity.HasKey(e => e.ApplicationId).HasName("sec_applications_pkey");
 
-            entity.ToTable("sec_applications");
+            entity.ToTable("sec_applications", "security");
 
             entity.Property(e => e.ApplicationId)
                 .HasMaxLength(20)
@@ -91,7 +181,7 @@ public partial class ScaffoldContext : DbContext
         {
             entity.HasKey(e => e.FunCd).HasName("sec_functions_pkey");
 
-            entity.ToTable("sec_functions");
+            entity.ToTable("sec_functions", "security");
 
             entity.HasIndex(e => e.StatusId, "uk_functions_status_id").IsUnique();
 
@@ -119,7 +209,7 @@ public partial class ScaffoldContext : DbContext
         {
             entity.HasKey(e => e.MenuId).HasName("sec_menu_pkey");
 
-            entity.ToTable("sec_menu");
+            entity.ToTable("sec_menu", "security");
 
             entity.Property(e => e.MenuId)
                 .ValueGeneratedNever()
@@ -153,7 +243,7 @@ public partial class ScaffoldContext : DbContext
         {
             entity.HasKey(e => new { e.ApplicationId, e.ModuleId }).HasName("sec_modules_pkey");
 
-            entity.ToTable("sec_modules");
+            entity.ToTable("sec_modules", "security");
 
             entity.HasIndex(e => e.ApplicationId, "module_app_fk_i");
 
@@ -204,7 +294,7 @@ public partial class ScaffoldContext : DbContext
         {
             entity.HasKey(e => new { e.ApplicationId, e.ModuleId, e.FunCd }).HasName("sec_module_functions_pkey");
 
-            entity.ToTable("sec_module_functions");
+            entity.ToTable("sec_module_functions", "security");
 
             entity.Property(e => e.ApplicationId)
                 .HasMaxLength(20)
@@ -242,7 +332,7 @@ public partial class ScaffoldContext : DbContext
         {
             entity.HasKey(e => new { e.ApplicationId, e.RoleId }).HasName("sec_roles_pkey");
 
-            entity.ToTable("sec_roles");
+            entity.ToTable("sec_roles", "security");
 
             entity.HasIndex(e => e.ApplicationId, "role_app_fk_i");
 
@@ -271,87 +361,20 @@ public partial class ScaffoldContext : DbContext
                 .HasConstraintName("sec_roles_application_id_fkey");
         });
 
-        modelBuilder.Entity<SecUser>(entity =>
+        modelBuilder.Entity<SecStaffRole>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("sec_users_pkey");
+            entity.HasKey(e => new { e.ApplicationId, e.Staffid, e.RoleId, e.FromDate }).HasName("sec_staff_roles_pkey");
 
-            entity.ToTable("sec_users");
+            entity.ToTable("sec_staff_roles", "security");
 
-            entity.Property(e => e.UserId)
-                .HasColumnType("character varying")
-                .HasColumnName("user_id");
-            entity.Property(e => e.AuthBy)
-                .HasMaxLength(100)
-                .HasColumnName("auth_by");
-            entity.Property(e => e.AuthDate)
-                .HasMaxLength(10)
-                .HasColumnName("auth_date");
-            entity.Property(e => e.AuthNo)
-                .HasMaxLength(50)
-                .HasColumnName("auth_no");
-            entity.Property(e => e.CreatedBy)
-                .HasMaxLength(20)
-                .HasColumnName("created_by");
-            entity.Property(e => e.CreatedDate)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("created_date");
-            entity.Property(e => e.Email)
-                .HasMaxLength(150)
-                .HasColumnName("email");
-            entity.Property(e => e.EmpName)
-                .HasMaxLength(120)
-                .HasColumnName("emp_name");
-            entity.Property(e => e.IpAddress)
-                .HasMaxLength(50)
-                .HasColumnName("ip_address");
-            entity.Property(e => e.IsLoggedIn)
-                .HasDefaultValue(false)
-                .HasColumnName("is_logged_in");
-            entity.Property(e => e.LastLoggedIn)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("last_logged_in");
-            entity.Property(e => e.LogInExpireTime)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("log_in_expire_time");
-            entity.Property(e => e.Machine)
-                .HasMaxLength(50)
-                .HasColumnName("machine");
-            entity.Property(e => e.Office)
-                .HasMaxLength(20)
-                .HasColumnName("office");
-            entity.Property(e => e.Remarks)
-                .HasMaxLength(200)
-                .HasColumnName("remarks");
-            entity.Property(e => e.Status)
-                .HasMaxLength(5)
-                .HasColumnName("status");
-            entity.Property(e => e.TranDate)
-                .HasMaxLength(10)
-                .HasColumnName("tran_date");
-            entity.Property(e => e.UserName)
-                .HasMaxLength(120)
-                .HasColumnName("user_name");
-            entity.Property(e => e.UserPassword)
-                .HasMaxLength(100)
-                .HasColumnName("user_password");
-        });
+            entity.HasIndex(e => new { e.ApplicationId, e.RoleId }, "sr_role_fk_i");
 
-        modelBuilder.Entity<SecUserRole>(entity =>
-        {
-            entity.HasKey(e => new { e.ApplicationId, e.UserId, e.RoleId, e.FromDate }).HasName("sec_user_roles_pkey");
-
-            entity.ToTable("sec_user_roles");
-
-            entity.HasIndex(e => new { e.ApplicationId, e.RoleId }, "ur_role_fk_i");
-
-            entity.HasIndex(e => e.UserId, "ur_user_1_fk_i");
+            entity.HasIndex(e => e.Staffid, "sr_user_1_fk_i");
 
             entity.Property(e => e.ApplicationId)
                 .HasMaxLength(20)
                 .HasColumnName("application_id");
-            entity.Property(e => e.UserId)
-                .HasMaxLength(30)
-                .HasColumnName("user_id");
+            entity.Property(e => e.Staffid).HasColumnName("staffid");
             entity.Property(e => e.RoleId)
                 .HasMaxLength(30)
                 .HasColumnName("role_id");
@@ -378,31 +401,96 @@ public partial class ScaffoldContext : DbContext
                 .HasMaxLength(10)
                 .HasColumnName("tran_date");
 
-            entity.HasOne(d => d.Application).WithMany(p => p.SecUserRoles)
+            entity.HasOne(d => d.Application).WithMany(p => p.SecStaffRoles)
                 .HasForeignKey(d => d.ApplicationId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("sec_user_roles_application_id_fkey");
+                .HasConstraintName("sec_staff_roles_application_id_fkey");
 
-            entity.HasOne(d => d.User).WithMany(p => p.SecUserRoles)
-                .HasForeignKey(d => d.UserId)
+            entity.HasOne(d => d.Staff).WithMany(p => p.SecStaffRoles)
+                .HasForeignKey(d => d.Staffid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("sec_user_roles_user_id_fkey");
+                .HasConstraintName("sec_staff_roles_staff_id_fkey");
 
-            entity.HasOne(d => d.SecRole).WithMany(p => p.SecUserRoles)
+            entity.HasOne(d => d.SecRole).WithMany(p => p.SecStaffRoles)
                 .HasForeignKey(d => new { d.ApplicationId, d.RoleId })
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("sec_user_roles_fk");
+                .HasConstraintName("sec_staff_roles_fk");
+        });
+
+        modelBuilder.Entity<SecUser>(entity =>
+        {
+            entity.HasKey(e => e.UserId).HasName("sec_users_pkey");
+
+            entity.ToTable("sec_users", "security");
+
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.AuthBy)
+                .HasMaxLength(100)
+                .HasColumnName("auth_by");
+            entity.Property(e => e.AuthDate)
+                .HasMaxLength(10)
+                .HasColumnName("auth_date");
+            entity.Property(e => e.AuthNo)
+                .HasMaxLength(50)
+                .HasColumnName("auth_no");
+            entity.Property(e => e.Cafeid).HasColumnName("cafeid");
+            entity.Property(e => e.CreatedBy)
+                .HasMaxLength(20)
+                .HasColumnName("created_by");
+            entity.Property(e => e.CreatedDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("created_date");
+            entity.Property(e => e.Email)
+                .HasMaxLength(150)
+                .HasColumnName("email");
+            entity.Property(e => e.IpAddress)
+                .HasMaxLength(50)
+                .HasColumnName("ip_address");
+            entity.Property(e => e.IsLoggedIn)
+                .HasDefaultValue(false)
+                .HasColumnName("is_logged_in");
+            entity.Property(e => e.LastLoggedIn)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("last_logged_in");
+            entity.Property(e => e.LogInExpireTime)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("log_in_expire_time");
+            entity.Property(e => e.Machine)
+                .HasMaxLength(50)
+                .HasColumnName("machine");
+            entity.Property(e => e.Remarks)
+                .HasMaxLength(200)
+                .HasColumnName("remarks");
+            entity.Property(e => e.Status)
+                .HasMaxLength(5)
+                .HasColumnName("status");
+            entity.Property(e => e.Totalcredit)
+                .HasPrecision(10, 2)
+                .HasDefaultValueSql("0")
+                .HasColumnName("totalcredit");
+            entity.Property(e => e.TranDate)
+                .HasMaxLength(10)
+                .HasColumnName("tran_date");
+            entity.Property(e => e.UserName)
+                .HasMaxLength(120)
+                .HasColumnName("user_name");
+            entity.Property(e => e.UserPassword)
+                .HasMaxLength(100)
+                .HasColumnName("user_password");
+
+            entity.HasOne(d => d.Cafe).WithMany(p => p.SecUsers)
+                .HasForeignKey(d => d.Cafeid)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("sec_users_cafeid_fkey");
         });
 
         modelBuilder.Entity<SecUsersStatus>(entity =>
         {
             entity.HasKey(e => new { e.UserId, e.UserStatus, e.FromDate, e.SeqNo }).HasName("sec_users_status_pkey");
 
-            entity.ToTable("sec_users_status");
+            entity.ToTable("sec_users_status", "security");
 
-            entity.Property(e => e.UserId)
-                .HasMaxLength(30)
-                .HasColumnName("user_id");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
             entity.Property(e => e.UserStatus)
                 .HasMaxLength(1)
                 .HasColumnName("user_status");
@@ -431,6 +519,52 @@ public partial class ScaffoldContext : DbContext
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("sec_users_status_user_id_fkey");
+        });
+
+        modelBuilder.Entity<Subscription>(entity =>
+        {
+            entity.HasKey(e => e.Subscriptionid).HasName("subscriptions_pkey");
+
+            entity.ToTable("subscriptions", "security");
+
+            entity.Property(e => e.Subscriptionid).HasColumnName("subscriptionid");
+            entity.Property(e => e.Createdat)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("createdat");
+            entity.Property(e => e.Durationmonths).HasColumnName("durationmonths");
+            entity.Property(e => e.Isactive)
+                .HasDefaultValue(true)
+                .HasColumnName("isactive");
+            entity.Property(e => e.Price)
+                .HasPrecision(10, 2)
+                .HasColumnName("price");
+            entity.Property(e => e.Subscriptionname)
+                .HasMaxLength(50)
+                .HasColumnName("subscriptionname");
+        });
+
+        modelBuilder.Entity<Subscription1>(entity =>
+        {
+            entity.HasKey(e => e.Subscriptionid).HasName("subscriptions_pkey");
+
+            entity.ToTable("subscriptions");
+
+            entity.Property(e => e.Subscriptionid).HasColumnName("subscriptionid");
+            entity.Property(e => e.Createdat)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("createdat");
+            entity.Property(e => e.Durationmonths).HasColumnName("durationmonths");
+            entity.Property(e => e.Isactive)
+                .HasDefaultValue(true)
+                .HasColumnName("isactive");
+            entity.Property(e => e.Price)
+                .HasPrecision(10, 2)
+                .HasColumnName("price");
+            entity.Property(e => e.Subscriptionname)
+                .HasMaxLength(50)
+                .HasColumnName("subscriptionname");
         });
 
         OnModelCreatingPartial(modelBuilder);

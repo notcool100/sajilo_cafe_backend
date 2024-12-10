@@ -1,17 +1,20 @@
-﻿using System;
+﻿using APP.Security.Models.Cafe;
+using System;
 using System.Collections.Generic;
 
-namespace APP.Security.Models;
+namespace APP.Security.Models.Users;
 
 public partial class SecUser
 {
-    public string UserId { get; set; } = null!;
+    public int UserId { get; set; }
 
     public string? UserName { get; set; }
 
     public string? UserPassword { get; set; }
 
     public string? Status { get; set; }
+
+    public decimal? Totalcredit { get; set; }
 
     public string? TranDate { get; set; }
 
@@ -25,9 +28,7 @@ public partial class SecUser
 
     public DateTime? CreatedDate { get; set; }
 
-    public string? Office { get; set; }
-
-    public string? EmpName { get; set; }
+    public int? Cafeid { get; set; }
 
     public string? AuthNo { get; set; }
 
@@ -43,7 +44,7 @@ public partial class SecUser
 
     public DateTime? LogInExpireTime { get; set; }
 
-    public virtual ICollection<SecUserRole> SecUserRoles { get; set; } = new List<SecUserRole>();
+    public virtual CafeM? Cafe { get; set; }
 
     public virtual ICollection<SecUsersStatus> SecUsersStatuses { get; set; } = new List<SecUsersStatus>();
 }

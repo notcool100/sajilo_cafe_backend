@@ -3,7 +3,7 @@ using APP.Security;
 using Microsoft.AspNetCore.Mvc;
 using APP.COMMON;
 using APP.Security.Repo.Interface;
-using APP.Security.Models;
+using APP.Security.Models.Users;
 
 namespace sajilo_cafe_backend.Controllers.security
 {
