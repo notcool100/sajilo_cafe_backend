@@ -13,22 +13,30 @@ variables:
   solution: 'sajilo_cafe_backend.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  publishPath: '$(build.artifactStagingDirectory)\WebApp'
 
 steps:
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
   inputs:
+    command: 'restore'
     restoreSolution: '$(solution)'
+    feedsToUse: 'select'
 
-- task: VSBuild@1
+- task: DotNetCoreCLI@2
   inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    command: 'publish'
+    publishWebProjects: true
+    arguments: '-o $(publishPath)'
+    zipAfterPublish: false
+    modifyOutputPath: false
 
-- task: VSTest@2
+- task: PublishBuildArtifacts@1
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    PathtoPublish: '$(publishPath)'
+    ArtifactName: '$(Build.BuildNumber)'
+    publishLocation: 'Container'
+    
+
+
