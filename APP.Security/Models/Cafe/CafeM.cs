@@ -23,5 +23,5 @@ public partial class CafeM
 
     public virtual ICollection<SecUser> SecUsers { get; set; } = new List<SecUser>();
 
-    public virtual Subscription1? Subscription { get; set; }
+    public virtual Subscription? Subscription { get; set; }
 }

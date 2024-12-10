@@ -45,9 +45,8 @@ public partial class SajiloDevContext : DbContext
 
     public virtual DbSet<SecUsersStatus> SecUsersStatuses { get; set; }
 
-    public virtual DbSet<Subscription> Subscriptions { get; set; }
 
-    public virtual DbSet<Subscription1> Subscriptions1 { get; set; }
+    public virtual DbSet<Subscription> Subscriptions { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -544,28 +543,6 @@ public partial class SajiloDevContext : DbContext
                 .HasColumnName("subscriptionname");
         });
 
-        modelBuilder.Entity<Subscription1>(entity =>
-        {
-            entity.HasKey(e => e.Subscriptionid).HasName("subscriptions_pkey");
-
-            entity.ToTable("subscriptions");
-
-            entity.Property(e => e.Subscriptionid).HasColumnName("subscriptionid");
-            entity.Property(e => e.Createdat)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("createdat");
-            entity.Property(e => e.Durationmonths).HasColumnName("durationmonths");
-            entity.Property(e => e.Isactive)
-                .HasDefaultValue(true)
-                .HasColumnName("isactive");
-            entity.Property(e => e.Price)
-                .HasPrecision(10, 2)
-                .HasColumnName("price");
-            entity.Property(e => e.Subscriptionname)
-                .HasMaxLength(50)
-                .HasColumnName("subscriptionname");
-        });
 
         OnModelCreatingPartial(modelBuilder);
     }

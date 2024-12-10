@@ -16,4 +16,5 @@ public partial class Subscription
     public bool? Isactive { get; set; }
 
     public DateTime? Createdat { get; set; }
+    public virtual ICollection<CafeM> Caves { get; set; } = new List<CafeM>();
 }
