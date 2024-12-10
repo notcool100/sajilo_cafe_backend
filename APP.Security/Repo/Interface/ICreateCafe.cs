@@ -1,4 +1,5 @@
 ﻿using APP.COMMON;
+using APP.Security.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace APP.Security.Repo.Interface
 {
     public interface ICreateCafe
     {
-        public JsonResponse Create_Cafe(ATTCreateCafe createCafe);
+        public JsonResponse Create_Cafe(SecUser createCafe);
 
     }
 }

@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using APP.COMMON;
 using Dapper;
+using APP.Security.Models;
 
 namespace APP.Security.Repo.Implimantation
 {
@@ -20,7 +21,7 @@ namespace APP.Security.Repo.Implimantation
         {
             _configuration = configuration;
         }
-        public Task<JsonResponse>Login(ATTLoginUser profile)
+        public Task<JsonResponse>Login(SecUser profile)
         {
             var connectionString = _configuration["ConnectionStrings:DBSettingConnection"];
             JsonResponse response = new JsonResponse();
@@ -32,12 +33,12 @@ namespace APP.Security.Repo.Implimantation
                     connection.Open();
                     string sql = "users.UserLogin";
                     DynamicParameters param = new DynamicParameters();
-                    param.Add("p_username", profile.cafe_id?.Trim());
-                    param.Add("p_password", profile.password?.Trim());
-                    param.Add("p_", profile.email?.Trim());
-                    param.Add("p_auth_success", dbType: DbType.Boolean, direction: ParameterDirection.Output);
-                    param.Add("p_user_id", dbType: DbType.Int32, direction: ParameterDirection.Output);
-                    param.Add("p_user_name", dbType: DbType.String, direction: ParameterDirection.Output, size: 50);
+                    //param.Add("p_username", profile.cafe_id?.Trim());
+                    //param.Add("p_password", profile.password?.Trim());
+                    //param.Add("p_", profile.email?.Trim());
+                    //param.Add("p_auth_success", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+                    //param.Add("p_user_id", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    //param.Add("p_user_name", dbType: DbType.String, direction: ParameterDirection.Output, size: 50);
 
                     // Execute the stored procedure
                     connection.Execute(sql, param, commandType: CommandType.StoredProcedure);

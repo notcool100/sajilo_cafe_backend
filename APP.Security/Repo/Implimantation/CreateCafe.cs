@@ -12,6 +12,7 @@ using APP.COMMON;
 using Dapper;
 using APP.Security.Repo.Interface;
 using Npgsql;
+using APP.Security.Models;
 
 namespace APP.Security.Repo.Implimantation
 {
@@ -22,7 +23,7 @@ namespace APP.Security.Repo.Implimantation
         {
             _configuration = configuration;
         }
-        public JsonResponse Create_Cafe(ATTCreateCafe createCafe)
+        public JsonResponse Create_Cafe(SecUser createCafe)
         {
             var connectionString = _configuration["ConnectionStrings:DBSettingConnection"];
             JsonResponse response = new JsonResponse();
@@ -36,12 +37,12 @@ namespace APP.Security.Repo.Implimantation
                     string sql = "SELECT * FROM core.create_cafe(@p_subscription_id, @p_cafe_name, @p_cafe_address, @p_owner_name, @p_owner_email, @p_owner_password)";
 
                     var param = new DynamicParameters();
-                    param.Add("p_subscription_id", createCafe.subscriptionId);
-                    param.Add("p_cafe_name", createCafe.cafeName?.Trim());
-                    param.Add("p_cafe_address", createCafe.cafeAddress?.Trim());
-                    param.Add("p_owner_name", createCafe.AdminName?.Trim());
-                    param.Add("p_owner_email", createCafe.AdminEmail?.Trim());
-                    param.Add("p_owner_password", createCafe.AdminPassword);
+                    //param.Add("p_subscription_id", createCafe.subscriptionId);
+                    //param.Add("p_cafe_name", createCafe.cafeName?.Trim());
+                    //param.Add("p_cafe_address", createCafe.cafeAddress?.Trim());
+                    //param.Add("p_owner_name", createCafe.AdminName?.Trim());
+                    //param.Add("p_owner_email", createCafe.AdminEmail?.Trim());
+                    //param.Add("p_owner_password", createCafe.AdminPassword);
 
                     var result =  connection.QuerySingleOrDefault(sql, param, commandType: CommandType.Text);
 

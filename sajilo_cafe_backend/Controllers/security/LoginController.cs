@@ -6,6 +6,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using APP.COMMON;
 using APP.Security;
 using APP.Security.Repo.Implimantation;
+using APP.Security.Models;
 
 namespace sajilo_cafe_backend.Controllers.security
 {
@@ -16,7 +17,7 @@ namespace sajilo_cafe_backend.Controllers.security
 
         [HttpPost]
         [Route("login")]
-        public async Task<JsonResponse> login(ATTLoginUser user)
+        public async Task<JsonResponse> login(SecUser user)
         {
             JsonResponse response = new JsonResponse();
             try

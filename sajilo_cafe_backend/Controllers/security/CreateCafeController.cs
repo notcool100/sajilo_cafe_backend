@@ -3,6 +3,7 @@ using APP.Security;
 using Microsoft.AspNetCore.Mvc;
 using APP.COMMON;
 using APP.Security.Repo.Interface;
+using APP.Security.Models;
 
 namespace sajilo_cafe_backend.Controllers.security
 {
@@ -17,7 +18,7 @@ namespace sajilo_cafe_backend.Controllers.security
         }
         [HttpPost]
         [Route("CreateCafe")]
-        public JsonResponse CreateCafe(ATTCreateCafe CreateCafe)
+        public JsonResponse CreateCafe(SecUser CreateCafe)
         {
             JsonResponse response = new JsonResponse();
             try
