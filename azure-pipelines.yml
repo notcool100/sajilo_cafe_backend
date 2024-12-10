@@ -1,8 +1,3 @@
-# ASP.NET
-# Build and test ASP.NET projects.
-# Add steps that publish symbols, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
-
 trigger:
 - master
 
@@ -16,6 +11,11 @@ variables:
   publishPath: '$(build.artifactStagingDirectory)\WebApp'
 
 steps:
+- task: UseDotNet@2
+  inputs:
+    version: '8.x'
+    includePreviewVersions: false
+
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
@@ -24,11 +24,16 @@ steps:
     restoreSolution: '$(solution)'
     feedsToUse: 'select'
 
+- task: DeleteFiles@1
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)'
+    Contents: '**/bin/**, **/obj/**'
+
 - task: DotNetCoreCLI@2
   inputs:
     command: 'publish'
     publishWebProjects: true
-    arguments: '-o $(publishPath)'
+    arguments: '-o $(publishPath) -v detailed'
     zipAfterPublish: false
     modifyOutputPath: false
 
@@ -37,6 +42,3 @@ steps:
     PathtoPublish: '$(publishPath)'
     ArtifactName: '$(Build.BuildNumber)'
     publishLocation: 'Container'
-    
-
-
