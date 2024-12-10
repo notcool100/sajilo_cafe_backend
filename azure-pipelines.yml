@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  name: 'Anjal_Agent'
+  name: 'PCS'
 
 variables:
   solution: 'sajilo_cafe_backend.sln'
