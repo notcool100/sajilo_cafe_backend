@@ -13,66 +13,61 @@ using Dapper;
 using APP.Security.Repo.Interface;
 using Npgsql;
 using APP.Security.Models.Users;
+using APP.Security.Models.Cafe;
+using APP.Security.Repo.Data;
+using APP.Security.Models;
+using System.Security.Cryptography;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using System.Net;
+using APP.Security.Models.Staff;
 
 namespace APP.Security.Repo.Implimantation
 {
     public class CreateCafe : ICreateCafe
     {
-        private readonly IConfiguration _configuration;
-        public CreateCafe(IConfiguration configuration)
+        private readonly SajiloDevContext _context;
+        public CreateCafe(SajiloDevContext context)
         {
-            _configuration = configuration;
+            _context = context;
         }
-        public JsonResponse Create_Cafe(SecUser createCafe)
+        public JsonResponse Create_Cafe(CreateCafeDTO createCafe)
         {
-            var connectionString = _configuration["ConnectionStrings:DBSettingConnection"];
+          
             JsonResponse response = new JsonResponse();
 
             try
             {
-                using (var connection = new NpgsqlConnection(connectionString))
+
+                var password = HashedPassword(createCafe.Password);
+                var Cafe = new CafeM
                 {
-                   connection.Open();
+                    Cafename = createCafe.CafeName,
+                    CafeLogo = createCafe.CafeLogo,
+                    Address = createCafe.CafeAddress,
+                    Subscriptionid = createCafe.Subscriptionid
 
-                    string sql = "SELECT * FROM core.create_cafe(@p_subscription_id, @p_cafe_name, @p_cafe_address, @p_owner_name, @p_owner_email, @p_owner_password)";
 
-                    var param = new DynamicParameters();
-                    //param.Add("p_subscription_id", createCafe.subscriptionId);
-                    //param.Add("p_cafe_name", createCafe.cafeName?.Trim());
-                    //param.Add("p_cafe_address", createCafe.cafeAddress?.Trim());
-                    //param.Add("p_owner_name", createCafe.AdminName?.Trim());
-                    //param.Add("p_owner_email", createCafe.AdminEmail?.Trim());
-                    //param.Add("p_owner_password", createCafe.AdminPassword);
-
-                    var result =  connection.QuerySingleOrDefault(sql, param, commandType: CommandType.Text);
-
-                    if (result != null)
-                    {
-                        var userId = result.UserId;     
-                        var userName = result.Username;
-                        var email = result.Email;
-                        var fullName = result.FullName;
-                        var cafeId = result.CafeId;
-                        var cafeName = result.CafeName;
-
-                        response.IsSuccess = true;
-                        response.Message = "Cafe created successfully";
-                        //response.ResponseData = new
-                        //{
-                        //    userId,
-                        //    userName,
-                        //    email,
-                        //    fullName,
-                        //    cafeId,
-                        //    cafeName
-                        //};
-                    }
-                    else
-                    {
-                        response.IsSuccess = false;
-                        response.Message = "Failed to create cafe or user.";
-                    }
+                };
+                _context.Cafe.Add(Cafe);
+                _context.SaveChanges();
+                int newCafeId = Cafe.Cafeid;
+                var users = new Cafestaff
+                {
+                    Cafeid = newCafeId,
+                    Name=createCafe.StaffName,
+                    password=password,
+                    phoneNo=createCafe.PhoneNo,
+                };
+                _context.Cafestaffs.Add(users);
+                _context.SaveChanges();
+                int staffid = users.Staffid;
+                if(staffid != 0)
+                {
+                    response.ResponseData = staffid;
+                    response.Message = "Cafe created Sucessfully";
                 }
+
+
             }
             catch (PostgresException pgEx)
             {
@@ -89,7 +84,22 @@ namespace APP.Security.Repo.Implimantation
 
             return response;
         }
+        internal string HashedPassword(string password) {
+            byte[] salt = new byte[128 / 8];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(salt);
+            }
 
-     
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                password: password,
+                salt: salt,
+                prf: KeyDerivationPrf.HMACSHA256,
+                iterationCount: 10000,
+                numBytesRequested: 256 / 8));
+
+            return hashed;
+        }
+
     }
 }

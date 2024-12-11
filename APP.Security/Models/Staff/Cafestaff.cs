@@ -7,6 +7,10 @@ namespace APP.Security.Models.Staff;
 public partial class Cafestaff
 {
     public int Staffid { get; set; }
+    public string Name { get; set; }
+    public string password { get; set; }
+    public string? phoneNo { get; set; }
+    public string? email { get; set; }
 
     public int Cafeid { get; set; }
 

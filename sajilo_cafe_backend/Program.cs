@@ -31,6 +31,8 @@ var jwtSettings = builder.Configuration.GetSection("Jwt");
 string secretKey = jwtSettings["Key"];
 string issuer = jwtSettings["Issuer"];
 string audience = jwtSettings["Audience"];
+builder.Services.AddDbContext<SajiloDevContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DBSettingConnection")));
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

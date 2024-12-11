@@ -48,10 +48,7 @@ public partial class SajiloDevContext : DbContext
 
     public virtual DbSet<Subscription> Subscriptions { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("Host=localhost;Database=sajilo_dev;Username=postgres;Password=heisahacker100");
-
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<CafeM>(entity =>
@@ -99,10 +96,19 @@ public partial class SajiloDevContext : DbContext
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("startdate");
+            entity.Property(e => e.Name)
+               .HasColumnName("name");
+            entity.Property(e => e.password)
+               .HasColumnName("password");
+            entity.Property(e => e.email)
+                .HasColumnName("email");
+            entity.Property(e => e.phoneNo)
+                .HasColumnName("phoneno");
 
             entity.HasOne(d => d.Cafe).WithMany(p => p.Cafestaffs)
                 .HasForeignKey(d => d.Cafeid)
                 .HasConstraintName("cafestaff_cafeid_fkey");
+           
         });
 
         modelBuilder.Entity<ClkStatus>(entity =>
