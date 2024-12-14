@@ -7,6 +7,7 @@ using APP.COMMON;
 using APP.Security;
 using APP.Security.Repo.Implimantation;
 using APP.Security.Models.Users;
+using APP.Security.Repo.Data;
 
 namespace sajilo_cafe_backend.Controllers.security
 {
@@ -17,7 +18,7 @@ namespace sajilo_cafe_backend.Controllers.security
 
         [HttpPost]
         [Route("login")]
-        public async Task<JsonResponse> login(SecUser user)
+        public async Task<JsonResponse> login(LoginDTO user)
         {
             JsonResponse response = new JsonResponse();
             try
@@ -26,7 +27,7 @@ namespace sajilo_cafe_backend.Controllers.security
                 if (response.IsSuccess)
                 {
                     dynamic responsedata = response.ResponseData;
-                    var jwtToken = _token.GenerateJwtToken(responsedata.user_id, responsedata.Username);
+                    var jwtToken = _token.GenerateJwtToken(responsedata.user_id, responsedata.Username,responsedata.CaffeId);
                     response.Token = jwtToken;
                 }
             }

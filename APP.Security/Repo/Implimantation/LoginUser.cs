@@ -11,60 +11,36 @@ using Microsoft.Extensions.Configuration;
 using APP.COMMON;
 using Dapper;
 using APP.Security.Models.Users;
+using APP.Security.Repo.Data;
+using APP.Security.Models;
+using APP.Security.Repo.Interface;
+using APP.Security.Models.Staff;
+using Microsoft.EntityFrameworkCore;
 
 namespace APP.Security.Repo.Implimantation
 {
     public class LoginUser: ILoginUser
     {
-        private readonly IConfiguration _configuration;
-        public LoginUser(IConfiguration configuration)
+        private readonly SajiloDevContext _context;
+        private readonly ISecurityCommon _securityCommon;
+        public LoginUser(SajiloDevContext context,ISecurityCommon Securitycommon)
         {
-            _configuration = configuration;
+            _context = context;
+            _securityCommon = Securitycommon;
         }
-        public Task<JsonResponse>Login(SecUser profile)
+        public Task<JsonResponse>Login(LoginDTO profile)
         {
-            var connectionString = _configuration["ConnectionStrings:DBSettingConnection"];
+            
             JsonResponse response = new JsonResponse();
-
+            
             try
             {
-                using (var connection = new SqlConnection(connectionString))
+                using (var transaction = _context.Database.BeginTransaction())
                 {
-                    connection.Open();
-                    string sql = "users.UserLogin";
-                    DynamicParameters param = new DynamicParameters();
-                    //param.Add("p_username", profile.cafe_id?.Trim());
-                    //param.Add("p_password", profile.password?.Trim());
-                    //param.Add("p_", profile.email?.Trim());
-                    //param.Add("p_auth_success", dbType: DbType.Boolean, direction: ParameterDirection.Output);
-                    //param.Add("p_user_id", dbType: DbType.Int32, direction: ParameterDirection.Output);
-                    //param.Add("p_user_name", dbType: DbType.String, direction: ParameterDirection.Output, size: 50);
 
-                    // Execute the stored procedure
-                    connection.Execute(sql, param, commandType: CommandType.StoredProcedure);
-
-                     bool isAuthSuccessful = param.Get<bool>("p_auth_success");
-
-                    if (isAuthSuccessful)
-                    {
-                        var userId = param.Get<int>("p_user_id");
-                        var userName = param.Get<string>("p_user_name");
-
-                        //var userProfile = new ATTUserProfile
-                        //{
-                        //    user_id = userId,
-                        //    Username = userName,
-                        //};
-
-                        response.IsSuccess = true;
-                        //response.ResponseData = userProfile;
-                        response.Message = "Login Successful";
-                    }
-                    else
-                    {
-                        response.IsSuccess = false;
-                        response.Message = ATTMessages.USER.LOGIN_FAILURE;
-                    }
+                    var Hashpassword = _securityCommon.HashPassword(profile.password);
+                   var UserDetail =_context.Cafestaffs.SingleOrDefaultAsync(m=>m.password == Hashpassword&&m=>m.e);
+                  
                 }
             }
             catch (SqlException sqlEx)

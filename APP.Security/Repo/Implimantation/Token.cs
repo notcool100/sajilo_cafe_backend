@@ -15,14 +15,15 @@ namespace APP.Security.Repo.Implimantation
         {
             _configuration = configuration;
         }
-        public string GenerateJwtToken(int userId, string userName)
+        public string GenerateJwtToken(int userId, string userName,int CaffeId)
         {
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim("username", userName),
-                new Claim("userid", userId.ToString())
+                new Claim("userid", userId.ToString()),
+                new Claim("CaffeId", userId.ToString())
 
             };
 
