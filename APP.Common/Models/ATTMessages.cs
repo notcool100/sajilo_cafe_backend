@@ -1,4 +1,4 @@
-﻿namespace APP.COMMON
+﻿namespace App.Shared.Models
 {
     public class ATTMessages
     {

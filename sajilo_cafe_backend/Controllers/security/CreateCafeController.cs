@@ -11,11 +11,11 @@ namespace sajilo_cafe_backend.Controllers.security
 {
     public class CreateCafeController : Controller
     {
-        private readonly ICreateCafe _CreateCafe;
+        private readonly ICafeService _service;
         private readonly Token _token;
-        public CreateCafeController(ICreateCafe CreateCafe, Token token)
+        public CreateCafeController(ICafeService cafeservice, Token token)
         {
-            _CreateCafe = CreateCafe;
+            _service = cafeservice;
             _token = token;
         }
         [HttpPost]
@@ -25,33 +25,12 @@ namespace sajilo_cafe_backend.Controllers.security
             JsonResponse response = new JsonResponse();
             try
             {
-                response =  _CreateCafe.Create_Cafe(CreateCafe);
-                if (response.IsSuccess && response.ResponseData != null)
-                {
-                    dynamic responsedata = response.ResponseData;
-
-                    // Ensure required fields are present in ResponseData
-                    if (responsedata.userId != null && responsedata.Username != null)
-                    {
-                        var jwtToken = _token.GenerateJwtToken(responsedata.userId, responsedata.Username);
-                        response.Token = jwtToken;
-                    }
-                    else
-                    {
-                        response.IsSuccess = false;
-                        response.Message = "Invalid response data.";
-                    }
-                }
-                else
-                {
-                    response.IsSuccess = false;
-                    response.Message = "Failed to create cafe or retrieve response data.";
-                }
+                response =  _service.Add(CreateCafe);
+               
             }
             catch (Exception ex)
             {
-                response.IsSuccess = false;
-                response.Message = ex.Message;
+                response.ServerError(ex);
             }
             return response;
         }

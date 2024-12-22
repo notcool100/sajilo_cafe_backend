@@ -1,9 +1,6 @@
-﻿using APP.COMMON;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-using System.ComponentModel.Design;
-
-namespace Microsoft.Extensions.DependencyInjection
+namespace App.Shared
 {
     public static class CommonServiceCollection
     {

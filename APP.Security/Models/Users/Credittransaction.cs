@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace APP.Security.Models.Users;
+﻿namespace APP.Security.Models.Users;
 
 public partial class Credittransaction
 {

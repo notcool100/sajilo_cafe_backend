@@ -1,4 +1,6 @@
-﻿namespace APP.COMMON
+﻿using System.Text.Json;
+
+namespace App.Shared.Models
 {
     public class JsonResponse
     {
@@ -46,12 +48,31 @@
         public string CallBack { get; set; }
         public bool IsToken { get; set; }
         public string ProfileImage { get; set; }
-        public string ChangePassword { get; set; }
         public bool HasError { get; set; }
         public bool HasPasswordChanged { get; set; }
         public bool ErrorTrap { get; set; }
         public object ResponseData2 { get; set; }
 
+        public object ToJson()
+        {
+            return JsonSerializer.Serialize(this);
+        }
+
+        public object ServerError(Exception? ex = null)
+        {
+            if (ex != null)
+            {
+                Message=ex.Message;
+                ErrorTrap = true;
+            }
+            return this;
+        }
+
+        public JsonResponse SuccessResponse()
+        {
+            IsSuccess = true;
+            return this;
+        }
     }
 
 }
