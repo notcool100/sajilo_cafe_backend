@@ -1,12 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 
-namespace APP.Security.Repo.Implimantation
+namespace App.Security.Repo.Implementation
 {
     public class Token
     {
@@ -15,7 +13,7 @@ namespace APP.Security.Repo.Implimantation
         {
             _configuration = configuration;
         }
-        public string GenerateJwtToken(int userId, string userName,int CaffeId)
+        public string GenerateJwtToken(int userId, string userName, int CaffeId)
         {
             var claims = new[]
             {

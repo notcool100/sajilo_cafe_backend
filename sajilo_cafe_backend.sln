@@ -5,9 +5,9 @@ VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sajilo_cafe_backend", "sajilo_cafe_backend\sajilo_cafe_backend.csproj", "{4DAE6A7C-7A54-430F-A0AB-776C707B8534}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APP.Security", "APP.Security\APP.Security.csproj", "{A920F8E9-79EC-49DA-B2F3-5D70A81D9397}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Security", "APP.Security\App.Security.csproj", "{A920F8E9-79EC-49DA-B2F3-5D70A81D9397}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APP.Common", "APP.Common\APP.Common.csproj", "{67BAED11-C1E9-4978-A4DD-77D7A8840A7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Shared", "APP.Common\App.Shared.csproj", "{67BAED11-C1E9-4978-A4DD-77D7A8840A7F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

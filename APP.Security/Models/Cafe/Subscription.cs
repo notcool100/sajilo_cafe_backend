@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace APP.Security.Models.Cafe;
+﻿namespace APP.Security.Models.Cafe;
 
 public partial class Subscription
 {
