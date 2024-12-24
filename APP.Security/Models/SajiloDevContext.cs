@@ -1,9 +1,8 @@
 ﻿using APP.Security.Models.Cafe;
 using APP.Security.Models.Menu;
-using APP.Security.Models.Staff;
 using APP.Security.Models.Users;
 using Microsoft.EntityFrameworkCore;
-
+using APP.Cafe;
 namespace APP.Security.Models;
 
 public partial class CafeContext : DbContext

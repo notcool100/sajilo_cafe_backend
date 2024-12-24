@@ -33,8 +33,7 @@ namespace sajilo_cafe_backend.Controllers.security
             }
             catch (Exception ex)
             {
-                response.IsSuccess = false;
-                response.Message = ex.Message;
+                return APIResponse.SuccessResponse();
             }
             return response;
         }

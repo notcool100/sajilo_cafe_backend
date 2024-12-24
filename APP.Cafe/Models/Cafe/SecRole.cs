@@ -1,7 +1,7 @@
 ﻿using APP.Security.Models.Menu;
 using APP.Security.Models.Staff;
 
-namespace APP.Security.Models.Cafe;
+namespace APP.cafe.Models;
 
 public partial class SecRole
 {

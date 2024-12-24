@@ -1,4 +1,4 @@
-﻿using APP.Security.Models.Cafe;
+﻿using APP.Cafe.Models;
 
 namespace APP.Security.Models.Staff;
 

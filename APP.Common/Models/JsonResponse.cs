@@ -75,4 +75,14 @@ namespace App.Shared.Models
         }
     }
 
+    public static class APIResponse
+    {
+        public static JsonResponse SuccessResponse(string msg= null)
+        {
+            
+                return new JsonResponse() { Message=msg};
+            
+        }
+    }
+
 }

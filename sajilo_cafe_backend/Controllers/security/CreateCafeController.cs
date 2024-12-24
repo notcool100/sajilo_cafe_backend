@@ -1,11 +1,8 @@
-﻿using APP.Security.Repo.Implimantation;
-using APP.Security;
-using Microsoft.AspNetCore.Mvc;
-using APP.COMMON;
-using APP.Security.Repo.Interface;
-using APP.Security.Models.Users;
-using APP.Security.Models.Cafe;
+﻿using APP.COMMON;
 using APP.Security.Repo.Data;
+using APP.Security.Repo.Implimantation;
+using APP.Security.Repo.Interface;
+using Microsoft.AspNetCore.Mvc;
 
 namespace sajilo_cafe_backend.Controllers.security
 {
