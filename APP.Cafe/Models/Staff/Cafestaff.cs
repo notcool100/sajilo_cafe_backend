@@ -1,6 +1,4 @@
-﻿using APP.Security.Models.Cafe;
-using System;
-using System.Collections.Generic;
+﻿using APP.Cafe.Models;
 
 namespace APP.Security.Models.Staff;
 

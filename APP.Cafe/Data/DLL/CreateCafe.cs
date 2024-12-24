@@ -1,30 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data;
-using System.Data.SqlClient;
-using System.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
+﻿using APP.Cafe.Data.Interface;
+using APP.Cafe.Models;
 using APP.COMMON;
-using Dapper;
-using APP.Security.Repo.Interface;
-using Npgsql;
-using APP.Security.Models.Users;
-using APP.Security.Models.Cafe;
-using APP.Security.Repo.Data;
 using APP.Security.Models;
-using System.Security.Cryptography;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using System.Net;
 using APP.Security.Models.Staff;
-using APP.Security.Repo.Common;
+using Npgsql;
 
-namespace APP.Security.Repo.Implimantation
+namespace APP.Cafe.Data
 {
-    public class CreateCafe : ICreateCafe
+    public class CreateCafe : ICreateCafeDDL
     {
         private readonly SajiloDevContext _context;
         public CreateCafe(SajiloDevContext context)
@@ -37,13 +20,10 @@ namespace APP.Security.Repo.Implimantation
             JsonResponse response = new JsonResponse();
             using (var transaction = _context.Database.BeginTransaction())
             {
-
-
-
                 try
                 {
 
-                    var password = PasswordHash.HashedPassword(createCafe.Password);
+                  
                     var Cafe = new CafeM
                     {
                         Cafename = createCafe.CafeName,
@@ -60,7 +40,7 @@ namespace APP.Security.Repo.Implimantation
                     {
                         Cafeid = newCafeId,
                         Name = createCafe.StaffName,
-                        password = password,
+                        password = createCafe.Password,
                         phoneNo = createCafe.PhoneNo,
                     };
                     _context.Cafestaffs.Add(users);
@@ -90,6 +70,7 @@ namespace APP.Security.Repo.Implimantation
                     response.IsSuccess = false;
                     response.HasError = true;
                     response.Message = $"An error occurred: {ex.Message}";
+                  
                 }
             }
 

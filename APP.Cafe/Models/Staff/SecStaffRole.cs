@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using APP.Security.Models.Cafe;
+﻿using APP.cafe.Models;
 using APP.Security.Models.Menu;
 
 namespace APP.Security.Models.Staff;

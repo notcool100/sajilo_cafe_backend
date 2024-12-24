@@ -1,47 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data;
-using System.Data.SqlClient;
-using System.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
-using APP.COMMON;
-using Dapper;
-using APP.Security.Models.Users;
-using APP.Security.Repo.Data;
+﻿using APP.COMMON;
 using APP.Security.Models;
+using APP.Security.Repo.Common;
+using APP.Security.Repo.Data;
 using APP.Security.Repo.Interface;
-using APP.Security.Models.Staff;
 using Microsoft.EntityFrameworkCore;
+using System.Data.SqlClient;
 
 namespace APP.Security.Repo.Implimantation
 {
-    public class LoginUser: ILoginUser
+    public class LoginUser : ILoginUser
     {
         private readonly SajiloDevContext _context;
-        private readonly ISecurityCommon _securityCommon;
-        public LoginUser(SajiloDevContext context,ISecurityCommon Securitycommon)
+        public LoginUser(SajiloDevContext context)
         {
             _context = context;
-            _securityCommon = Securitycommon;
         }
-        public Task<JsonResponse>Login(LoginDTO profile)
+        public async Task<JsonResponse> Login(LoginDTO profile)
         {
-            
-            JsonResponse response = new JsonResponse();
-            
+            var response = new JsonResponse();
+
             try
             {
-                using (var transaction = _context.Database.BeginTransaction())
-                {
+                await using var transaction = await _context.Database.BeginTransactionAsync();
 
-                    var Hashpassword = _securityCommon.HashPassword(profile.password);
-                   var UserDetail =_context.Cafestaffs.SingleOrDefaultAsync(m=>m.password == Hashpassword&&m=>m.e);
-                  
+                var hashPassword = PasswordHash.HashedPassword(profile.password);
+
+                var userDetail = await _context.Cafestaffs
+                    .SingleOrDefaultAsync(m => m.password == hashPassword && m.phoneNo == profile.Phone_no);
+
+                if (userDetail != null)
+                {
+                    response.IsSuccess = true;
+                    response.HasError = false;
+                    response.Message = "Login successful.";
+                    response.ResponseData = userDetail;
                 }
+                else
+                {
+                    response.IsSuccess = false;
+                    response.HasError = true;
+                    response.Message = "Invalid email or password.";
+                }
+
+                await transaction.CommitAsync();
             }
             catch (SqlException sqlEx)
             {
@@ -56,7 +57,8 @@ namespace APP.Security.Repo.Implimantation
                 response.Message = $"An error occurred: {ex.Message}";
             }
 
-            return Task.FromResult(response);
+            return response;
         }
+
     }
 }

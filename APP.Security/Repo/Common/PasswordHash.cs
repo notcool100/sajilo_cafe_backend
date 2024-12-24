@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace APP.Security.Repo.Common
 {
-    internal class PasswordHash
+    public static class PasswordHash
     {
-        internal string HashedPassword(string password)
+        public static string HashedPassword(string password)
         {
             byte[] salt = new byte[128 / 8];
             using (var rng = RandomNumberGenerator.Create())
