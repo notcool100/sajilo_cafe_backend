@@ -1,18 +1,14 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-using APP.Security;
-using APP.Security.Repo.Implimantation;
-using APP.Security.Repo.Interface;
-
-namespace Microsoft.Extensions.DependencyInjection
+namespace App.Security
 {
     public static class DashboardServiceCollection
     {
         public static IServiceCollection AddSecurityServices(this IServiceCollection services)
         {
-            services.AddTransient<ILoginUser, LoginUser>();
-            services.AddTransient<ICreateCafe, CreateCafe>();
-            services.AddSingleton<Token>();
+            _=services.AddTransient<ILoginUser, LoginUser>();
+            _=services.AddTransient<ICreateCafe, CreateCafe>();
+            _=services.AddSingleton<Token>();
             return services;
         }
 
