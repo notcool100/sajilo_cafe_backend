@@ -1,4 +1,4 @@
-﻿using App.Shared.Models;
+﻿using Shared.App;
 using Cafe.Infrastructure.Domain;
 using Cafe.Infrastructure.Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -19,16 +19,33 @@ namespace Cafe.App.Repo
         }
         public JsonResponse Add(CreateCafeDTO dto)
         {
-            CafeM Cafe = new
-            (
-                dto.CafeName,
-                dto.CafeAddress,
-                dto.TransactionUser,
-                dto.Subscriptionid,
-                dto.CafeLogo
-                );
+            CafeM cafe = new CafeM
+            {
+                Cafename = dto.CafeName,
+                Address = dto.CafeAddress,
+                Subscriptionid = dto.Subscriptionid,
+                CafeLogo = dto.CafeLogo,
+                Createdat = DateTime.UtcNow
+            };
             // all validation before add
-            Add(Cafe);
+            Add(cafe);
+            Context.SaveChanges();
+
+            // adding owner in staff table
+            if (!string.IsNullOrEmpty(dto.StaffName) && !string.IsNullOrEmpty(dto.Password))
+            {
+                Cafestaff staff = new Cafestaff
+                {
+                    Name = dto.StaffName,
+                    password = dto.Password,
+                    phoneNo = dto.PhoneNo,
+                    email = dto.Email,
+                    Cafeid = cafe.Cafeid 
+                };
+
+                Context.Set<Cafestaff>().Add(staff);
+                Context.SaveChanges(); 
+            }
             return new JsonResponse().SuccessResponse();
         }
     }

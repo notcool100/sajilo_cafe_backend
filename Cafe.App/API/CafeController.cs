@@ -1,4 +1,4 @@
-﻿using App.Shared.Models;
+﻿using Shared.App;
 using Cafe.App.Interface;
 using Cafe.Infrastructure.Domain;
 using Microsoft.AspNetCore.Mvc;

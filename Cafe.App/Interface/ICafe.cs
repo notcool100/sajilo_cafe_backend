@@ -1,6 +1,6 @@
 ﻿using Cafe.Infrastructure.Infrastructure;
 using Cafe.Infrastructure.Domain;
-using App.Shared.Models;
+using Shared.App;
 
 namespace Cafe.App.Interface
 {
