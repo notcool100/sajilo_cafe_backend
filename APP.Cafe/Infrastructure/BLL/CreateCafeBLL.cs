@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 using APP.Security.Repo.Common;
 using APP.Cafe.Data.Interface;
 using App.Shared.Models;
+using App.Shared.Infrastructure;
 
 namespace APP.Cafe.Infrastructure.BLL
 {
-    internal class CreateCafeBLL : ICreateCafeBLL
+    internal class CreateCafeBLL 
     {
         private readonly ICreateCafeDDL _createCafeDDL;
         public CreateCafeBLL(ICreateCafeDDL createCafeDDL)
@@ -25,7 +26,7 @@ namespace APP.Cafe.Infrastructure.BLL
                 try
                 {
                 createCafe.Password= PasswordHash.HashedPassword(createCafe.Password);
-                response = _createCafeDDL.Create_Cafe(createCafe);
+                response = _createCafeDDL.Create_Cafe_Ddl(createCafe);
                 }
            
                 catch (Exception ex)

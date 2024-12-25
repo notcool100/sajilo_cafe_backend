@@ -24,32 +24,12 @@ namespace APP.Cafe
             JsonResponse response = new JsonResponse();
             try
             {
-                response = _CreateCafe.Create_Cafe_Bll(CreateCafe);
-                if (response.IsSuccess && response.ResponseData != null)
-                {
-                    dynamic responsedata = response.ResponseData;
+                response = _CreateCafe.Add(CreateCafe);
 
-                    if (responsedata.userId != null && responsedata.Username != null)
-                    {
-                        var jwtToken = _token.GenerateJwtToken(responsedata.userId, responsedata.Username, responsedata.CafeId);
-                        response.Token = jwtToken;
-                    }
-                    else
-                    {
-                        response.IsSuccess = false;
-                        response.Message = "Invalid response data.";
-                    }
-                }
-                else
-                {
-                    response.IsSuccess = false;
-                    response.Message = "Failed to create cafe or retrieve response data.";
-                }
             }
             catch (Exception ex)
             {
-                response.IsSuccess = false;
-                response.Message = ex.Message;
+                response.ServerError(ex);
             }
             return response;
         }

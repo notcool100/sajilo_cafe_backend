@@ -1,9 +1,10 @@
-﻿using APP.Security.Models.Staff;
+﻿using App.Shared.Infrastructure;
+using APP.Security.Models.Staff;
 using APP.Security.Models.Users;
 
 namespace APP.Cafe.Models;
 
-public class CafeM
+public class CafeM : IAggregateRoot
 {
     public int Cafeid { get; set; }
 

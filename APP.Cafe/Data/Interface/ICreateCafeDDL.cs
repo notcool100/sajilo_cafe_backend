@@ -1,4 +1,5 @@
-﻿using App.Shared.Models;
+﻿using App.Shared.Infrastructure;
+using App.Shared.Models;
 using APP.Cafe.Models;
 
 using System;
@@ -9,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace APP.Cafe.Data.Interface
 {
-    internal interface ICreateCafeDDL
+    internal interface ICreateCafeDDL:IBaseInterface<CafeM>
     {
-        public JsonResponse Create_Cafe_Ddl(CreateCafeDTO createCafe);
+         JsonResponse Create_Cafe_Ddl(CreateCafeDTO createCafe);
     }
 }
