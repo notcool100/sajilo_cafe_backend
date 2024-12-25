@@ -1,17 +1,20 @@
-﻿using APP.COMMON;
-using APP.Security.Repo.Data;
-using APP.Security.Repo.Implimantation;
-using APP.Security.Repo.Interface;
+﻿using App.Security.Repo.Implementation;
+using App.Shared.Models;
+using APP.Cafe.Data;
+using APP.Cafe.Infrastructure;
+using APP.Cafe.Infrastructure.BLL;
+using APP.Cafe.Models;
+using System.Web.Mvc;
 
 namespace APP.Cafe
 {
     public class CreateCafe: Controller
     {
-        private readonly ICreateCafe _CreateCafe;
+        private readonly ICreateCafeBLL _CreateCafe;
         private readonly Token _token;
-        public CreateCafe(ICreateCafe CreateCafe, Token token)
+        public CreateCafe(ICreateCafeBLL createCafeBll, Token token)
         {
-            _CreateCafe = CreateCafe;
+            _CreateCafe = createCafeBll;
             _token = token;
         }
         [HttpPost]
@@ -21,7 +24,7 @@ namespace APP.Cafe
             JsonResponse response = new JsonResponse();
             try
             {
-                response = _CreateCafe.Create_Cafe(CreateCafe);
+                response = _CreateCafe.Create_Cafe_Bll(CreateCafe);
                 if (response.IsSuccess && response.ResponseData != null)
                 {
                     dynamic responsedata = response.ResponseData;

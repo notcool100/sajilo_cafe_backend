@@ -1,7 +1,6 @@
-﻿using APP.Cafe.Data.Interface;
+﻿using App.Shared.Models;
+using APP.Cafe.Data.Interface;
 using APP.Cafe.Models;
-using APP.COMMON;
-using APP.Security.Models;
 using APP.Security.Models.Staff;
 using Npgsql;
 
@@ -14,7 +13,7 @@ namespace APP.Cafe.Data
         {
             _context = context;
         }
-        public JsonResponse Create_Cafe(CreateCafeDTO createCafe)
+        public JsonResponse Create_Cafe_Ddl(CreateCafeDTO createCafe)
         {
           
             JsonResponse response = new JsonResponse();

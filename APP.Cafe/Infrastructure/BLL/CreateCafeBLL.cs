@@ -1,5 +1,4 @@
 ﻿using APP.Cafe.Models;
-using APP.COMMON;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using APP.Security.Repo.Common;
 using APP.Cafe.Data.Interface;
+using App.Shared.Models;
 
 namespace APP.Cafe.Infrastructure.BLL
 {
-    internal class CreateCafeBLL:ICreateCafeBLL
+    internal class CreateCafeBLL : ICreateCafeBLL
     {
         private readonly ICreateCafeDDL _createCafeDDL;
         public CreateCafeBLL(ICreateCafeDDL createCafeDDL)
@@ -18,7 +18,7 @@ namespace APP.Cafe.Infrastructure.BLL
             _createCafeDDL = createCafeDDL;
         }
 
-        public JsonResponse Create_Cafe(CreateCafeDTO createCafe)
+        public JsonResponse Create_Cafe_Bll(CreateCafeDTO createCafe)
         {
 
             JsonResponse response = new JsonResponse();
@@ -37,5 +37,6 @@ namespace APP.Cafe.Infrastructure.BLL
             return response;
         }
 
+     
     }
 }

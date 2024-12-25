@@ -1,5 +1,6 @@
-﻿using APP.Cafe.Models;
-using APP.COMMON;
+﻿using App.Shared.Models;
+using APP.Cafe.Models;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,6 @@ namespace APP.Cafe.Data.Interface
 {
     internal interface ICreateCafeDDL
     {
-        public JsonResponse Create_Cafe(CreateCafeDTO createCafe);
+        public JsonResponse Create_Cafe_Ddl(CreateCafeDTO createCafe);
     }
 }
