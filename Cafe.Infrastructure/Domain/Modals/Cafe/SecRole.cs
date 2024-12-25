@@ -1,5 +1,4 @@
-﻿using APP.Security.Models.Menu;
-
+﻿
 namespace Cafe.Infrastructure.Domain;
 
 public partial class SecRole

@@ -1,24 +1,32 @@
-﻿namespace Shared.App
+﻿using App.Shared.Infrastructure;
+using APP.Security.Models;
+using APP.Security.Models.Users;
+
+namespace Shared.App
 {
-    public class BaseM
+    public class BaseM:IAggregateRoot
     {
         public Guid Id { get; set; }
-        public string EntryBy { get; internal set; }
+        public string Name { get; set; }
+        public User EntryBy { get; internal set; }
         public DateTime? EntryDate { get; internal set; }
         public DateTime? LastUpdated { get; internal set; }
-        public int Status { get; internal set; }
+        public Status Status { get; internal set; }
         public BaseM() { }
-        public BaseM(string entryBy, int status = 1)
+        public BaseM(string Name,User entryBy, Status? status)
         {
             Id = Guid.NewGuid();
-            EntryBy=entryBy;
+            this.Name = Name;
+            EntryBy =entryBy;
             EntryDate=DateTime.Now;
             LastUpdated=null;
-            Status=status;
+            Status=status?? Status.Active;
         }
         public void Delete()
         {
             Status = 5;
         }
     }
+
+   
 }

@@ -1,7 +1,6 @@
 ﻿using Shared.App;
 using Cafe.Infrastructure.Domain;
-using Cafe.Infrastructure.Infrastructure;
-using Microsoft.EntityFrameworkCore;
+using App.Shared.Infrastructure;
 
 
 namespace Cafe.App.Repo

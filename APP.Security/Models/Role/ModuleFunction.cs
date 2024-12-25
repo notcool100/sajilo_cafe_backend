@@ -1,6 +1,6 @@
 ﻿namespace APP.Security.Models.Menu;
 
-public partial class SecModuleFunction
+public partial class SubModuleFunction
 {
     public string ApplicationId { get; set; } = null!;
 

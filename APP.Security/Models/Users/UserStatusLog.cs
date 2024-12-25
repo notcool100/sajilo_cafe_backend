@@ -1,6 +1,8 @@
-﻿namespace APP.Security.Models.Users;
+﻿using App.Shared.Models;
 
-public partial class SecUsersStatus
+namespace APP.Security.Models.Users;
+
+public partial class UserStatusLog:BaseM
 {
     public int UserId { get; set; }
 

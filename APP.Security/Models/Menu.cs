@@ -1,14 +1,12 @@
 ﻿namespace APP.Security.Models.Menu;
 
-public partial class SecMenu
+public partial class Menu
 {
-    public short MenuId { get; set; }
+    public short Id { get; set; }
 
     public string MenuText { get; set; } = null!;
 
     public string? ToolTip { get; set; }
-
-    public string UsedIn { get; set; } = null!;
 
     public double? OrderNo { get; set; }
 
@@ -18,9 +16,7 @@ public partial class SecMenu
 
     public string? HasChild { get; set; }
 
-    public string? SecApl { get; set; }
-
     public string? MenuIcon { get; set; }
 
-    public virtual ICollection<SecModule> SecModules { get; set; } = new List<SecModule>();
+    public List<SubModule> Module { get; set; }
 }

@@ -1,49 +1,45 @@
-﻿using APP.Security.Models.Cafe;
+﻿using App.Shared;
+using App.Shared.Infrastructure;
+using APP.Security.Models.Cafe;
 using APP.Security.Models.Menu;
-using APP.Security.Models.Users;
 using Microsoft.EntityFrameworkCore;
 namespace APP.Security.Models;
 
-public partial class CafeContext : DbContext
+public partial class CafeContext :  BaseContext<CafeContext>, IAggregateRoot
 {
-    public CafeContext()
-    {
-    }
+   
 
-    public CafeContext(DbContextOptions<CafeContext> options)
+    public CafeContext(DbContextOptions<BaseContext<CafeContext>> options)
         : base(options)
     {
     }
 
-    public virtual DbSet<CafeM> Cafe { get; set; }
+   
 
-    public virtual DbSet<Cafestaff> Cafestaffs { get; set; }
+    //public virtual DbSet<ClkStatus> ClkStatuses { get; set; }
 
-    public virtual DbSet<ClkStatus> ClkStatuses { get; set; }
+    //public virtual DbSet<Credittransaction> Credittransactions { get; set; }
 
-    public virtual DbSet<Credittransaction> Credittransactions { get; set; }
+    //public virtual DbSet<SecApplication> SecApplications { get; set; }
 
-    public virtual DbSet<SecApplication> SecApplications { get; set; }
+    //public virtual DbSet<SecFunction> SecFunctions { get; set; }
 
-    public virtual DbSet<SecFunction> SecFunctions { get; set; }
+    //public virtual DbSet<SecMenu> SecMenus { get; set; }
 
-    public virtual DbSet<SecMenu> SecMenus { get; set; }
+    //public virtual DbSet<SecModule> SecModules { get; set; }
 
-    public virtual DbSet<SecModule> SecModules { get; set; }
+    //public virtual DbSet<SecModuleFunction> SecModuleFunctions { get; set; }
 
-    public virtual DbSet<SecModuleFunction> SecModuleFunctions { get; set; }
+    //public virtual DbSet<SecRole> SecRoles { get; set; }
 
-    public virtual DbSet<SecRole> SecRoles { get; set; }
+    //public virtual DbSet<SecStaffRole> SecStaffRoles { get; set; }
 
-    public virtual DbSet<SecStaffRole> SecStaffRoles { get; set; }
+    //public virtual DbSet<SecUser> SecUsers { get; set; }
 
-    public virtual DbSet<SecUser> SecUsers { get; set; }
+    //public virtual DbSet<SecUsersStatus> SecUsersStatuses { get; set; }
 
-    public virtual DbSet<SecUsersStatus> SecUsersStatuses { get; set; }
-
-
-    public virtual DbSet<Subscription> Subscriptions { get; set; }
-
+    // move above dbset to their own sperate context file
+    //below will also be splitted per context
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

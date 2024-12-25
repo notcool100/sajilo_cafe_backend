@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Cafe.Infrastructure.Domain;
 
-public class CreateCafeDTO
+public class CafeInDTO
 {
     public string CafeName { get; set; }
     public string CafeAddress {  get; set; }

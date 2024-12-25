@@ -18,3 +18,8 @@ public partial class Credittransaction
 
     public int? Orderid { get; set; }
 }
+
+
+//chnage to new model with tranaction logs and order log 
+// customer bills/orders >> orderid, userid, cafeid, orderdate, totalamount, status, note, orderitems, payment status (paid, unpaid, partial)
+//customer payments >>  orderid , transactionid, amount, transactiondate, note, transactiontype(credit(baki), realtime), userid, cafeid
