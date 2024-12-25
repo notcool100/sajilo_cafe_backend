@@ -1,6 +1,7 @@
-﻿using System.Linq.Expressions;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
-namespace App.Shared.Infrastructure
+namespace Cafe.Infrastructure.Infrastructure
 {
     public class IBaseRepo<TEntity> : IBaseInterface<TEntity> where TEntity : class, IAggregateRoot
     {
