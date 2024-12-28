@@ -33,7 +33,9 @@ steps:
   inputs:
     command: 'publish'
     projects: '$(solution)'
-    arguments: '-c $(buildConfiguration) -o $(publishPath)'
+    arguments: '--no-warn -o $(publishPath) -v detailed'
+    zipAfterPublish: false
+    modifyOutputPath: false
 
 - task: PublishBuildArtifacts@1
   inputs:
