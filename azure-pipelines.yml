@@ -29,8 +29,8 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'publish'
-    publishWebProjects: true
-    arguments: '-o $(publishPath) -v detailed'
+    projects: 'D:\agent\_work\1\s\sajilo_cafe_backend\sajilo_cafe_backend.csproj'
+    arguments: '-o $(publishPath) -c $(buildConfiguration) -v detailed'
     zipAfterPublish: false
     modifyOutputPath: false
 
