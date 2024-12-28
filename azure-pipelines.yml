@@ -13,8 +13,9 @@ variables:
 steps:
 - task: UseDotNet@2
   inputs:
+    packageType: 'sdk'
     version: '8.x'
-    includePreviewVersions: true
+    includePreviewVersions: false
 
 - task: NuGetToolInstaller@1
 
@@ -31,9 +32,15 @@ steps:
 
 - task: DotNetCoreCLI@2
   inputs:
+    command: 'build'
+    projects: '$(solution)'
+    arguments: '--no-restore /p:TreatWarningsAsErrors=false'
+
+- task: DotNetCoreCLI@2
+  inputs:
     command: 'publish'
     projects: '$(solution)'
-    arguments: '--no-warn -o $(publishPath) -v detailed'
+    arguments: '-o $(publishPath) -v diag /p:TreatWarningsAsErrors=false'
     zipAfterPublish: false
     modifyOutputPath: false
 
