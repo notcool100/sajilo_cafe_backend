@@ -7,17 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\APP.Common\App.Shared.csproj" />
-    <ProjectReference Include="..\Shared.App\Shared.App.csproj" />
     <ProjectReference Include="..\Cafe.Infrastructure\Cafe.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\Implementation\Hepler\" />
+    <Folder Include="Application\Implementation\Helper\" />
   </ItemGroup>
 
 </Project>

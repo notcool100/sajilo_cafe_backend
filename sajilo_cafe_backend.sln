@@ -5,7 +5,7 @@ VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sajilo_cafe_backend", "sajilo_cafe_backend\sajilo_cafe_backend.csproj", "{4DAE6A7C-7A54-430F-A0AB-776C707B8534}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APP.Security", "APP.Security\APP.Security.csproj", "{A920F8E9-79EC-49DA-B2F3-5D70A81D9397}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Security.App", "APP.Security\Security.App.csproj", "{A920F8E9-79EC-49DA-B2F3-5D70A81D9397}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APP.Cafe", "APP.Cafe\APP.Cafe.csproj", "{51AB9FA6-AEC0-4047-B8F7-66BD32490A6B}"
 EndProject

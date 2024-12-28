@@ -6,10 +6,11 @@ namespace App.Shared.Models
         public Guid Id { get; set; }
         public string EntryBy { get; internal set; }
         public DateTime? EntryDate { get; internal set; }
+        public DateTime? DeleteDate { get; internal set; }
         public DateTime? LastUpdated { get; internal set; }
         public RecordStatus Status { get; internal set; }
-        public BaseM() { }
-        public BaseM(string entryBy, RecordStatus status )
+        private BaseM() { }
+        public BaseM(string entryBy, RecordStatus status= RecordStatus.Submit )
         {
             Id = Guid.NewGuid();
             EntryBy=entryBy;
@@ -19,7 +20,8 @@ namespace App.Shared.Models
         }
         public void Delete()
         {
-            Status = 5;
+            DeleteDate= DateTime.Now;
+            Status = RecordStatus.Delete;
         }
     }
 }

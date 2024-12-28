@@ -1,34 +1,22 @@
-﻿using APP.Security.Models.Menu;
+﻿namespace Cafe.Infrastructure.Domain.Modals.Staff;
 
-namespace Cafe.Infrastructure.Domain;
-
-public partial class SecStaffRole
+public partial class EmployeeRole : BaseM
 {
-    public string ApplicationId { get; set; } = null!;
-
-    public int Staffid { get; set; }
-
-    public string RoleId { get; set; } = null!;
-
-    public string FromDate { get; set; } = null!;
-
-    public string? ToDate { get; set; }
-
-    public string? TranDate { get; set; }
-
-    public string? EntryBy { get; set; }
-
     public string? AuthNo { get; set; }
 
     public string? AuthBy { get; set; }
 
     public string? AuthDate { get; set; }
 
-    public int? RoleSeq { get; set; }
+    public int SeqNo { get; set; }
 
-    public virtual SecApplication Application { get; set; } = null!;
 
-    public virtual SecRole SecRole { get; set; } = null!;
+    public  SecRole SecRole { get; set; } = null!;
+    public EmployeeRole(SecRole secRole, int seqNo, string entryBy)
+        : base(entryBy)
+    {
+        SecRole = secRole;
+        SeqNo = seqNo;
+    }
 
-    public virtual Cafestaff Staff { get; set; } = null!;
 }

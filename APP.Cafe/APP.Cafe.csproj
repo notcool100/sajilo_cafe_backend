@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\APP.Common\APP.Common.csproj" />
     <ProjectReference Include="..\APP.Security\APP.Security.csproj" />
   </ItemGroup>
 

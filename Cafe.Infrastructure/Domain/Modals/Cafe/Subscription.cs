@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Cafe.Infrastructure.Domain;
+﻿namespace Cafe.Infrastructure.Domain.Modals.Cafe;
 
 public partial class Subscription
 {

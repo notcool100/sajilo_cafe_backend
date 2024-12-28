@@ -1,21 +1,22 @@
-﻿
-namespace Cafe.Infrastructure.Domain;
+﻿using System.Reflection;
 
-public partial class SecRole
+namespace Cafe.Infrastructure.Domain.Modals.Cafe;
+
+public partial class SecRole:BaseM
 {
-    public string ApplicationId { get; set; } = null!;
 
-    public string RoleId { get; set; } = null!;
 
-    public string? RoleDescription { get; set; }
+    public string? Description { get; set; }
 
     public string? DbRole { get; set; }
 
-    public string? EntryBy { get; set; }
 
-    public DateTime? EntryDate { get; set; }
-
-    public virtual SecApplication Application { get; set; } = null!;
-
-    public virtual ICollection<SecStaffRole> SecStaffRoles { get; set; } = new List<SecStaffRole>();
+    public  List<Module> Modules { get; set; } = null!;
+    public SecRole(string description, string dbRole, List<Module> modules, string entryBy)
+        : base(entryBy)
+    {
+        Description = description;
+        DbRole = dbRole;
+        Modules = modules;
+    }
 }

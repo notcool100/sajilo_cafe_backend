@@ -4,7 +4,7 @@
     {
         public bool ValidateCafeM(CafeM cafe)
         {
-            if (string.IsNullOrEmpty(cafe.CafeName) || string.IsNullOrEmpty(cafe.CafeAddress) || string.IsNullOrEmpty(cafe.Password))
+            if (string.IsNullOrEmpty(cafe.Name) || string.IsNullOrEmpty(cafe.Address) )
             {
                 return false;
             }

@@ -1,4 +1,6 @@
 ﻿
+using System.Reflection;
+
 namespace App.Shared
 {
     public class BaseContext<TEntity> : DbContext where TEntity : class, IAggregateRoot
@@ -7,6 +9,11 @@ namespace App.Shared
         {
 
         }
-       
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        }
+
     }
 }

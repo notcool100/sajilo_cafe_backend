@@ -57,7 +57,7 @@ namespace App.Shared.Models
             return JsonSerializer.Serialize(this);
         }
 
-        public object ServerError(Exception? ex = null)
+        public JsonResponse ServerError(Exception? ex = null)
         {
             if (ex != null)
             {
@@ -70,6 +70,12 @@ namespace App.Shared.Models
         public JsonResponse SuccessResponse()
         {
             IsSuccess = true;
+            return this;
+        }
+        public JsonResponse BadRequest( string? msg=null)
+        {
+            IsValid = false;
+            Message = msg ?? "Validation Error.";
             return this;
         }
     }
