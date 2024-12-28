@@ -1,14 +1,16 @@
-﻿namespace App.Shared.Models
+﻿
+namespace App.Shared.Models
 {
-    public class BaseM
+    public class BaseM:IAggregateRoot
     {
         public Guid Id { get; set; }
         public string EntryBy { get; internal set; }
         public DateTime? EntryDate { get; internal set; }
+        public DateTime? DeleteDate { get; internal set; }
         public DateTime? LastUpdated { get; internal set; }
-        public int Status { get; internal set; }
-        public BaseM() { }
-        public BaseM(string entryBy, int status = 1)
+        public RecordStatus Status { get; internal set; }
+        private BaseM() { }
+        public BaseM(string entryBy, RecordStatus status= RecordStatus.Submit )
         {
             Id = Guid.NewGuid();
             EntryBy=entryBy;
@@ -18,7 +20,8 @@
         }
         public void Delete()
         {
-            Status = 5;
+            DeleteDate= DateTime.Now;
+            Status = RecordStatus.Delete;
         }
     }
 }

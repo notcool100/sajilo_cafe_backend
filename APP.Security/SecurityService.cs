@@ -1,16 +1,14 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
-namespace App.Security
+namespace Security.App
 {
-    public static class DashboardServiceCollection
+    public static class DependencyInjection
     {
-        public static IServiceCollection AddSecurityServices(this IServiceCollection services)
+        public static void AddSecurityServices(this IServiceCollection services)
         {
-            _=services.AddTransient<ILoginUser, LoginUser>();
-            _=services.AddTransient<ICreateCafe, CreateCafe>();
-            _=services.AddSingleton<Token>();
-            return services;
+           
+           
         }
-
     }
 }

@@ -1,9 +1,3 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using APP.Security.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -12,9 +6,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddCommonServices();
-builder.Services.AddSecurityServices();
-builder.Services.AddCafeServices();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins,
@@ -32,43 +23,7 @@ var jwtSettings = builder.Configuration.GetSection("Jwt");
 string secretKey = jwtSettings["Key"];
 string issuer = jwtSettings["Issuer"];
 string audience = jwtSettings["Audience"];
-builder.Services.AddDbContext<SajiloDevContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DBSettingConnection")));
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = issuer,
-            ValidAudience = audience,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
-        };
 
-        // Handle SignalR connections with access token
-        options.Events = new JwtBearerEvents
-        {
-            OnMessageReceived = context =>
-            {
-                var accessToken = context.Request.Query["access_token"];
-
-                // If the request is for the SignalR hub and contains an access token, add it to the context
-                var path = context.HttpContext.Request.Path;
-                if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/Singlr/ChatHub") || path.StartsWithSegments("/Singlr/friendsHub") || path.StartsWithSegments("/Singlr/VideoHub")))
-                {
-                    context.Token = accessToken;
-                }
-                return Task.CompletedTask;
-            }
-        };
-    });
 var app = builder.Build();
 app.UseCors(MyAllowSpecificOrigins);
 app.Use(async (context, next) =>
