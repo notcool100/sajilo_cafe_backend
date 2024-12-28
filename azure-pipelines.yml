@@ -14,7 +14,7 @@ steps:
 - task: UseDotNet@2
   inputs:
     version: '8.x'
-    includePreviewVersions: false
+    includePreviewVersions: true
 
 - task: NuGetToolInstaller@1
 
@@ -32,10 +32,8 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'publish'
-    publishWebProjects: true
-    arguments: '-o $(publishPath) -v detailed'
-    zipAfterPublish: false
-    modifyOutputPath: false
+    projects: '$(solution)'
+    arguments: '-c $(buildConfiguration) -o $(publishPath)'
 
 - task: PublishBuildArtifacts@1
   inputs:
