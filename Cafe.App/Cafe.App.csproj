@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\APP.Common\App.Shared.csproj" />
+    <ProjectReference Include="..\APP.Security\Security.App.csproj" />
     <ProjectReference Include="..\Cafe.Infrastructure\Cafe.Infrastructure.csproj" />
   </ItemGroup>
 
