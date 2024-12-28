@@ -1,5 +1,6 @@
-﻿global using App.Shared.Infrastructure;
-global using App.Shared.Models;
-global using Cafe.Infrastructure.Domain.DTO;
-global using Cafe.Infrastructure.Domain.Modals.Cafe;
-global using Cafe.Infrastructure.Domain.Modals.Staff;
+﻿global using App.Shared.Models;
+global using App.Shared;
+ 
+global using Cafe.Infrastructure.Application.DTOs;
+global using Cafe.Infrastructure.Application.Interface;
+global using Microsoft.AspNetCore.Mvc;

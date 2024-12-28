@@ -1,4 +1,4 @@
-﻿namespace Cafe.App.Interface
+﻿namespace Cafe.Infrastructure.Application.Interface
 {
     public interface ICafe : IBaseInterface<CafeM>
     {

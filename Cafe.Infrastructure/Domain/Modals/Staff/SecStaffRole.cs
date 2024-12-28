@@ -11,7 +11,7 @@ public partial class EmployeeRole : BaseM
     public int SeqNo { get; set; }
 
 
-    public  SecRole SecRole { get; set; } = null!;
+    public SecRole SecRole { get; set; } = null!;
     public EmployeeRole(SecRole secRole, int seqNo, string entryBy)
         : base(entryBy)
     {

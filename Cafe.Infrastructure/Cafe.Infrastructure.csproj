@@ -17,4 +17,8 @@
     <ProjectReference Include="..\APP.Security\Security.App.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Application\Implementation\Helper\" />
+  </ItemGroup>
+
 </Project>

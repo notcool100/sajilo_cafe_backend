@@ -1,11 +1,7 @@
-﻿using Cafe.App.Interface;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Cafe.App.API
+﻿
+namespace Cafe.App.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class CafeController : Controller
+    public class CafeController : BaseController
     {
         private readonly ICafe _cafe;
         public CafeController(ICafe cafe)

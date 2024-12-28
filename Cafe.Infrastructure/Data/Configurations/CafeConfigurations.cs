@@ -1,6 +1,4 @@
-﻿
-
-namespace Cafe.Infrastructure.Application.Data
+﻿namespace Cafe.Infrastructure.Data.Configurations
 {
     internal static class CafeSchema
     {

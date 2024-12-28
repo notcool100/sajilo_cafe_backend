@@ -17,7 +17,7 @@ public class CafeM : BaseM
 
     public Subscription Subscription { get; set; }
 
-    public CafeM(string Name, string address, int? subscriptionid, byte[]? cafeLogo, User entryBy, RecordStatus status= RecordStatus.Submit)
+    public CafeM(string Name, string address, int? subscriptionid, byte[]? cafeLogo, User entryBy, RecordStatus status = RecordStatus.Submit)
         : base(entryBy.Id.ToString(), status)
     {
         Address = address;

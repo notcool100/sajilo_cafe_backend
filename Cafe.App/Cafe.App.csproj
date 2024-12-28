@@ -16,8 +16,4 @@
     <ProjectReference Include="..\Cafe.Infrastructure\Cafe.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Application\Implementation\Helper\" />
-  </ItemGroup>
-
 </Project>

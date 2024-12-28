@@ -1,9 +1,8 @@
 ﻿
 using AutoMapper;
 using Security.App.Infrastructure.Domain.Users;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace Cafe.Infrastructure.Domain.DTO;
+namespace Cafe.Infrastructure.Application.DTOs;
 
 public class CafeInDTO
 {
@@ -21,7 +20,7 @@ public class CafeInDTO
         public Mapping()
         {
             _ = CreateMap<CafeInDTO, CafeM>()
-                .ForMember(x=> x.Name,options=> options.MapFrom(src=> src.StaffName))
+                .ForMember(x => x.Name, options => options.MapFrom(src => src.StaffName))
                 ;
         }
     }
