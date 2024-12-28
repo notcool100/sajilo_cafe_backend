@@ -13,7 +13,6 @@ variables:
 steps:
 - task: UseDotNet@2
   inputs:
-    packageType: 'sdk'
     version: '8.x'
     includePreviewVersions: false
 
@@ -32,15 +31,9 @@ steps:
 
 - task: DotNetCoreCLI@2
   inputs:
-    command: 'build'
-    projects: '$(solution)'
-    arguments: '--no-restore /p:TreatWarningsAsErrors=false'
-
-- task: DotNetCoreCLI@2
-  inputs:
     command: 'publish'
-    projects: '$(solution)'
-    arguments: '-o $(publishPath) -v diag /p:TreatWarningsAsErrors=false'
+    publishWebProjects: true
+    arguments: '-o $(publishPath) -v detailed'
     zipAfterPublish: false
     modifyOutputPath: false
 
