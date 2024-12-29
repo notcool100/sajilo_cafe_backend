@@ -24,10 +24,7 @@ steps:
     restoreSolution: '$(solution)'
     feedsToUse: 'select'
 
-- task: DeleteFiles@1
-  inputs:
-    SourceFolder: '$(System.DefaultWorkingDirectory)'
-    Contents: '**/bin/**, **/obj/**'
+
 
 - task: DotNetCoreCLI@2
   inputs:
