@@ -12,6 +12,9 @@ public partial class SecRole : BaseM
 
 
     public List<Module> Modules { get; set; } = null!;
+    public SecRole()
+    {
+    }
     public SecRole(string description, string dbRole, List<Module> modules, string entryBy)
         : base(entryBy)
     {

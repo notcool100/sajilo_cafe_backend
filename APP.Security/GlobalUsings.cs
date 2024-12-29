@@ -1,10 +1,10 @@
-﻿global using AutoMapper;
-global using App.Shared;
+﻿global using App.Shared;
 global using App.Shared.Infrastructure;
 global using App.Shared.Models;
+global using AutoMapper;
 global using Microsoft.EntityFrameworkCore;
-global using Security.App.Infrastructure.Domain.Users;
-global using Security.App.Infrastructure.Data;
-global using Security.App.Application.DTOs;
-global using Microsoft.AspNetCore.Mvc;
-global using Security.App.Application.Interface;
+global using Security.Infrastructure.Application.DTOs;
+global using Security.Infrastructure.Domain.Users;
+global using Security.Infrastructure.Domain.Role;
+global using Security.Infrastructure.Data;
+global using Microsoft.Extensions.Configuration;

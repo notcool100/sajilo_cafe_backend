@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Security.App.Application.Implementation.Helpers
+namespace Security.Infrastructure.Application.Implementation.Helpers
 {
     public class Token
     {

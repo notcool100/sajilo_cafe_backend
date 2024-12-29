@@ -1,5 +1,6 @@
 ﻿
-using Security.App.Infrastructure.Domain.Users;
+
+
 
 namespace Cafe.Infrastructure.Domain.Modals.Cafe;
 public class CafeM : BaseM
@@ -17,6 +18,9 @@ public class CafeM : BaseM
 
     public Subscription Subscription { get; set; }
 
+    private CafeM()
+    {
+    }
     public CafeM(string Name, string address, int? subscriptionid, byte[]? cafeLogo, User entryBy, RecordStatus status = RecordStatus.Submit)
         : base(entryBy.Id.ToString(), status)
     {

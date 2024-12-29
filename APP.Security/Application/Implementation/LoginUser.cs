@@ -1,9 +1,8 @@
 ﻿
+using Security.Infrastructure.Data;
+using Security.Infrastructure.Domain.Users;
 
-
-using Security.App.Application.Implementation.Helpers;
-
-namespace Security.App.Application.Implementation
+namespace Security.Infrastructure.Application.Implementation
 {
     public class LoginUser : IBaseRepo<User>
     {
@@ -21,18 +20,18 @@ namespace Security.App.Application.Implementation
 
             try
             {
-                string passwordhash = PasswordHash.HashedPassword(profile.Password);
-                User user=_context.Users.Where(
-                   x => x.Email == profile.UserName 
+                string passwordhash = Implementation.Helpers.PasswordHash.HashedPassword(profile.Password);
+                User user = _context.Users.Where(
+                   x => x.Email == profile.UserName
                    && x.Password == passwordhash
                    ).FirstOrDefault()!;
                 if (user != null)
                 {
-                   return response.SuccessResponse();
+                    return response.SuccessResponse();
                 }
                 else
                 {
-                   return response.BadRequest("Invalid username or password");
+                    return response.BadRequest("Invalid username or password");
                 }
             }
             catch (Exception ex)

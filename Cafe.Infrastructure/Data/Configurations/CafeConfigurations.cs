@@ -1,9 +1,6 @@
 ﻿namespace Cafe.Infrastructure.Data.Configurations
 {
-    internal static class CafeSchema
-    {
-        public static string Name = "cafe";
-    }
+    
     public class CafeMConfiguration : IEntityTypeConfiguration<CafeM>
     {
         public void Configure(EntityTypeBuilder<CafeM> entity)

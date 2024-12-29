@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using System.Security.Cryptography;
 
-namespace Security.App.Application.Implementation.Helpers
+namespace Security.Infrastructure.Application.Implementation.Helpers
 {
     public static class PasswordHash
     {

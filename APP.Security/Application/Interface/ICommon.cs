@@ -1,4 +1,4 @@
-﻿namespace Security.App.Application.Interface
+﻿namespace Security.Infrastructure.Application.Interface
 {
     public interface ISecurityCommon
     {

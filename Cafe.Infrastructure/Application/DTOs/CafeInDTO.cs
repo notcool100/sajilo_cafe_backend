@@ -1,6 +1,4 @@
 ﻿
-using AutoMapper;
-using Security.App.Infrastructure.Domain.Users;
 
 namespace Cafe.Infrastructure.Application.DTOs;
 
