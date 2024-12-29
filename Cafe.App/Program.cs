@@ -15,7 +15,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSharedServices();
 builder.Services.AddSecurityServices();
 builder.Services.AddDbContext<BaseContext<CafeContext>>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DBSettingConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DBSettingConnection"),
+    b => b.MigrationsAssembly("Cafe.App")));
+
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
