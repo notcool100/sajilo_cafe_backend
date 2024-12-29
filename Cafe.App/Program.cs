@@ -1,4 +1,7 @@
+using Cafe.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using Security.App;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +14,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSharedServices();
 builder.Services.AddSecurityServices();
+builder.Services.AddDbContext<BaseContext<CafeContext>>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DBSettingConnection")));
+
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
