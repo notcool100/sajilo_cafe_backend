@@ -7,6 +7,4 @@ global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using Cafe.Infrastructure.Data;
 global using Cafe.Infrastructure.Application.DTOs;
-global using Security.Infrastructure.Domain;
-global using Security.Infrastructure.Domain.Users;
 global using AutoMapper;

@@ -14,22 +14,21 @@ public class CafeM : BaseM
 
     public ICollection<Employee> Employees { get; set; } = new List<Employee>();
 
-    public ICollection<User> Users { get; set; } = new List<User>();
 
     public Subscription Subscription { get; set; }
 
     private CafeM()
     {
     }
-    public CafeM(string Name, string address, int? subscriptionid, byte[]? cafeLogo, User entryBy, RecordStatus status = RecordStatus.Submit)
-        : base(entryBy.Id.ToString(), status)
+    public CafeM(string Name, string address, int? subscriptionid, byte[]? cafeLogo, string entryBy, RecordStatus status = RecordStatus.Submit)
+        : base(entryBy, status)
     {
         Address = address;
         Subscriptionid = subscriptionid;
         CafeLogo = cafeLogo;
     }
-    public void AddUser(User user)
+    public void AddEmployee(Employee user)
     {
-        Users.Add(user);
+        Employees.Add(user);
     }
 }

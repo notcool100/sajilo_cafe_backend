@@ -12,7 +12,7 @@ public class CafeInDTO
     public string? PhoneNo { get; set; }
     public int? Subscriptionid { get; set; }
     public byte[]? CafeLogo { get; set; }
-    public User TranUser { get; set; }
+    public string TranUser { get; set; }
     private class Mapping : Profile
     {
         public Mapping()

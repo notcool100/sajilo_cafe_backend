@@ -4,7 +4,7 @@ namespace Security.Infrastructure.Domain.Users;
 
 public partial class User : BaseM
 {
-
+    public string Name { get; set; } 
     public string Password { get; set; } = null!;
     public string? MAC { get; set; }
 
@@ -19,14 +19,13 @@ public partial class User : BaseM
     public DateTime? LogInExpireTime { get; set; }
 
     public UserStatus UserStatus { get; set; }
-    public RecordStatus Status { get; set; }
 
 
     public virtual ICollection<UserStatusLog> StatusHistory { get; set; } = new List<UserStatusLog>();
 
     public virtual ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
 
-    public User()
+    private User()
     {
     }
     public User(string Name, string email, string password, string phoneNo, string entryBy, UserStatus userStatus = UserStatus.Active, RecordStatus status = RecordStatus.Submit)
@@ -34,16 +33,17 @@ public partial class User : BaseM
     {
         Email = email;
         Password = password;
-        Status = status;
         UserStatus = userStatus;
+        this.Name = Name;
     }
     public User(string Name, string email, string password, string phoneNo, User entryUser, UserStatus userStatus = UserStatus.Active, RecordStatus status = RecordStatus.Submit)
        : base(entryUser.Id.ToString(), status)
     {
         Email = email;
         Password = password;
-        Status = status;
         UserStatus = userStatus;
+        this.Name = Name;
+
     }
 }
 
