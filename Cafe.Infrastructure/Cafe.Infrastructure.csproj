@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <Folder Include="Application\Implementation\Helper\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>
