@@ -1,10 +1,13 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using App.Shared.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace App.Shared
 {
     public class BaseContext<TEntity> : DbContext where TEntity : class, IAggregateRoot
     {
         private readonly IConfiguration _configuration;
+
+        public DbSet<BaseM> Cafes { get; set; }
         public BaseContext(DbContextOptions<BaseContext<TEntity>> options,IConfiguration configuration) : base(options)
         {
             _configuration = configuration;

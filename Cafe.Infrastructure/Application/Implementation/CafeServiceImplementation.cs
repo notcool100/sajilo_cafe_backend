@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
+using Cafe.Infrastructure.Application.Interface;
 
 namespace Cafe.Infrastructure.Application.Implementation
 {
-    internal class CafeRepo : IBaseRepo<CafeM>
+    internal class CafeRepo : IBaseRepo<CafeM>, ICafe
     {
         private readonly IMapper _mapper;
-        public CafeRepo(CafeContext context, IMapper _mapper) : base(context)
+        public CafeRepo(BaseContext<CafeContext> context, IMapper mapper) : base(context)
         {
-            this._mapper = _mapper;
+            _mapper = mapper;
         }
 
         public override void Add(CafeM entity)

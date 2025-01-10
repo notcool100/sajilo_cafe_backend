@@ -8,3 +8,8 @@ global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using Cafe.Infrastructure.Data;
 global using Cafe.Infrastructure.Application.DTOs;
 global using AutoMapper;
+global using Cafe.Infrastructure.Application.Implementation;
+global using Cafe.Infrastructure.Application.Interface;
+global using Microsoft.Extensions.DependencyInjection;
+global using Cafe.Infrastructure.Application.MappingProfile;
+global using System.Security;

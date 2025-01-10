@@ -13,13 +13,13 @@ public class CafeInDTO
     public int? Subscriptionid { get; set; }
     public byte[]? CafeLogo { get; set; }
     public string TranUser { get; set; }
-    private class Mapping : Profile
-    {
-        public Mapping()
-        {
-            _ = CreateMap<CafeInDTO, CafeM>()
-                .ForMember(x => x.Name, options => options.MapFrom(src => src.StaffName))
-                ;
-        }
-    }
+    //private class Mapping : Profile
+    //{
+    //    public Mapping()
+    //    {
+    //        _ = CreateMap<CafeInDTO, CafeM>()
+    //           .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.CafeName));
+
+    //    }
+    //}
 }

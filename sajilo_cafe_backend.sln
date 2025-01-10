@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Security.Infrastructure", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Shared", "APP.Shared\App.Shared.csproj", "{AB6EB66A-3768-4F99-8657-5E93D3793D48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cafe.Infrastructure", "Cafe.Infrastructure\Cafe.Infrastructure.csproj", "{33396415-1731-4738-8937-291869DE575D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cafe.Infrastructure", "Cafe.Infrastructure\Cafe.Infrastructure.csproj", "{33396415-1731-4738-8937-291869DE575D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cafe.App", "Cafe.App\Cafe.App.csproj", "{6B896959-9C09-49E9-9D9C-C542F5F81FF8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cafe.App", "Cafe.App\Cafe.App.csproj", "{6B896959-9C09-49E9-9D9C-C542F5F81FF8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{4DBACFCD-1522-43E7-85DA-17ECFDFB8419}"
 EndProject

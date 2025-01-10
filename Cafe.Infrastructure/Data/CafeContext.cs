@@ -1,4 +1,7 @@
-﻿namespace Cafe.Infrastructure.Data
+﻿using Cafe.Infrastructure.Data.Configurations;
+using System.Reflection;
+
+namespace Cafe.Infrastructure.Data
 {
     internal static class CafeSchema
     {
@@ -18,6 +21,7 @@
         {
             modelBuilder.HasDefaultSchema(CafeSchema.Name);
             base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
     }

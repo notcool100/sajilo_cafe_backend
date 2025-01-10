@@ -1,4 +1,4 @@
-﻿using System.Security;
+﻿
 
 namespace Cafe.Infrastructure
 {
@@ -12,7 +12,8 @@ namespace Cafe.Infrastructure
             //    return contextFactory.CreateDbContext();
             //});
             services.AddDbContext<BaseContext<CafeContext>>();
-
+            services.AddScoped<ICafe, CafeRepo>();
+            services.AddAutoMapper(typeof(CafeMappingProfile));
         }
     }
 }
