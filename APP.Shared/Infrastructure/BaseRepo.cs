@@ -4,12 +4,11 @@ using App.Shared.Models;
 namespace App.Shared.Infrastructure
 {
     public class IBaseRepo<TEntity, TContext> : IBaseInterface<TEntity, TContext> 
-        where TEntity : BaseM 
+        where TEntity : class,IAggregateRoot 
         where TContext : BaseContext<TContext>,IAggregateRoot
     {
         protected readonly BaseContext<TContext> Context;
 
-        private  DbSet<TEntity> _dbSet;
 
 
         public IBaseRepo(BaseContext<TContext>  context)
@@ -18,61 +17,61 @@ namespace App.Shared.Infrastructure
 
             if (context != null)
             {
-                _dbSet = context.Set<TEntity>();
+                //_dbSet = context.Set<TEntity>;
             }
         }
 
 
         public virtual void Add(TEntity entity)
         {
-            _dbSet = Context.Set<TEntity>();
-            _ =_dbSet.Add(entity);
+
+            Context.Set<TEntity>().Add(entity);
         }
 
 
         public virtual void Remove(TEntity entity)
         {
-            _=_dbSet.Remove(entity);
+            Context.Set<TEntity>().Remove(entity);
         }
 
         public virtual void Update(TEntity entity)
         {
-            _=_dbSet.Update(entity);
+            Context.Set<TEntity>().Update(entity);
         }
 
 
         public async Task<TEntity> GetByIdAsync(object id)
         {
-            return await _dbSet.FindAsync(id).ConfigureAwait(false);
+            return await Context.Set<TEntity>().FindAsync(id).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            return await _dbSet.ToListAsync().ConfigureAwait(false);
+            return await Context.Set<TEntity>().ToListAsync().ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync<TProperty>(Expression<Func<TEntity, TProperty>> include)
         {
-            IQueryable<TEntity> query = _dbSet.Include(include);
+            IQueryable<TEntity> query = Context.Set<TEntity>().Include(include);
 
             return await query.ToListAsync().ConfigureAwait(false);
         }
 
         public async Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await _dbSet.SingleOrDefaultAsync(predicate).ConfigureAwait(false);
+            return await Context.Set<TEntity>().SingleOrDefaultAsync(predicate).ConfigureAwait(false);
         }
 
 
         public virtual async Task<QueryResult<TEntity>> GetPageAsync(QueryObjectParams queryObjectParams)
         {
-            return await GetOrderedPageQueryResultAsync(queryObjectParams, _dbSet).ConfigureAwait(false);
+            return await GetOrderedPageQueryResultAsync(queryObjectParams, Context.Set<TEntity>()).ConfigureAwait(false);
         }
 
 
         public virtual async Task<QueryResult<TEntity>> GetPageAsync(QueryObjectParams queryObjectParams, Expression<Func<TEntity, bool>> predicate)
         {
-            IQueryable<TEntity> query = _dbSet;
+            IQueryable<TEntity> query = Context.Set<TEntity>();
 
             if (predicate != null)
                 query = query.Where(predicate);
@@ -82,7 +81,7 @@ namespace App.Shared.Infrastructure
 
         public virtual async Task<QueryResult<TEntity>> GetPageAsync(QueryObjectParams queryObjectParams, List<Expression<Func<TEntity, object>>> includes)
         {
-            IQueryable<TEntity> query = _dbSet;
+            IQueryable<TEntity> query = Context.Set<TEntity>();
 
             query = includes.Aggregate(query, (current, include) => current.Include(include));
 
@@ -93,7 +92,7 @@ namespace App.Shared.Infrastructure
 
         public virtual async Task<QueryResult<TEntity>> GetPageAsync<TProperty>(QueryObjectParams queryObjectParams, Expression<Func<TEntity, bool>> predicate, List<Expression<Func<TEntity, TProperty>>> includes = null)
         {
-            IQueryable<TEntity> query = _dbSet;
+            IQueryable<TEntity> query = Context.Set<TEntity>();
 
             if (includes != null)
             {
@@ -128,7 +127,7 @@ namespace App.Shared.Infrastructure
                 return new QueryResult<TEntity>(fecthedItems, totalCount);
             }
 
-            return new QueryResult<TEntity>(await GetPagePrivateQuery(_dbSet, queryObjectParams).ToListAsync().ConfigureAwait(false), totalCount);
+            return new QueryResult<TEntity>(await GetPagePrivateQuery(Context.Set<TEntity>(), queryObjectParams).ToListAsync().ConfigureAwait(false), totalCount);
         }
 
 
