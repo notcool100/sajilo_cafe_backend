@@ -1,12 +1,15 @@
 ﻿
+using System.Text.Json.Serialization;
+
 namespace App.Shared.Models
 {
+    
     public class JsonResponse
     {
         private string _message { get; set; }
         public bool IsSuccess { get; set; } = false;
-        public bool IsValidSubmissionNO { get; set; }
         public bool IsValid { get; set; }
+        public bool HasError { get; internal set; }
         public string Message
         {
             get
@@ -22,7 +25,7 @@ namespace App.Shared.Models
                         _message = ATTMessages.RECORD_FOUND;
 
                     }
-                    else if (ErrorTrap)
+                    else if (HasError)
                     {
                         _message = ATTMessages.GENERIC_ERROR;
                     }
@@ -38,18 +41,8 @@ namespace App.Shared.Models
                 }
             }
         }
-        public dynamic data { get; set; }
-        public string Token { get; set; }
         public object ResponseData { get; set; }
-        public object Records { get; set; }
-        public string OutputParam { get; set; }
         public object TotalRecords { get; set; }
-        public string CallBack { get; set; }
-        public bool IsToken { get; set; }
-        public string ProfileImage { get; set; }
-        public bool HasError { get; set; }
-        public bool HasPasswordChanged { get; set; }
-        public bool ErrorTrap { get; set; }
         public object ResponseData2 { get; set; }
 
         public object ToJson()
@@ -62,7 +55,7 @@ namespace App.Shared.Models
             if (ex != null)
             {
                 Message=ex.Message;
-                ErrorTrap = true;
+                HasError = true;
             }
             return this;
         }

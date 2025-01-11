@@ -21,7 +21,6 @@ namespace Cafe.Infrastructure.Data
         {
             modelBuilder.HasDefaultSchema(CafeSchema.Name);
             base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
     }

@@ -15,7 +15,7 @@ namespace App.Shared
             {
                 services.AddSingleton(typeof(IEntityTypeConfiguration<>), type);
             }
-            _ =services.AddTransient(typeof(IBaseInterface<>), typeof(IBaseRepo<>));
+            _ =services.AddTransient(typeof(IBaseInterface<,>), typeof(IBaseRepo<,>));
             _ = services.AddValidatorsFromAssembly(Assembly.GetCallingAssembly());
             _ = services.AddAutoMapper(Assembly.GetCallingAssembly());
             

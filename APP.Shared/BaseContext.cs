@@ -11,6 +11,7 @@ namespace App.Shared
         public BaseContext(DbContextOptions<BaseContext<TEntity>> options,IConfiguration configuration) : base(options)
         {
             _configuration = configuration;
+            Database.EnsureCreated();
         }
         //need to make more generic to support configring from sperate config file 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -41,7 +42,7 @@ namespace App.Shared
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetCallingAssembly());
         }
 
     }

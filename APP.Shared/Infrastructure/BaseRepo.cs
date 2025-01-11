@@ -3,14 +3,16 @@ using App.Shared.Models;
 
 namespace App.Shared.Infrastructure
 {
-    public class IBaseRepo<TEntity> : IBaseInterface<TEntity> where TEntity : class, IAggregateRoot
+    public class IBaseRepo<TEntity, TContext> : IBaseInterface<TEntity, TContext> 
+        where TEntity : BaseM 
+        where TContext : BaseContext<TContext>,IAggregateRoot
     {
-        protected readonly DbContext Context;
+        protected readonly BaseContext<TContext> Context;
 
-        private readonly DbSet<TEntity> _dbSet;
+        private  DbSet<TEntity> _dbSet;
 
 
-        public IBaseRepo(DbContext context)
+        public IBaseRepo(BaseContext<TContext>  context)
         {
             Context = context;
 
@@ -23,7 +25,8 @@ namespace App.Shared.Infrastructure
 
         public virtual void Add(TEntity entity)
         {
-            _=_dbSet.Add(entity);
+            _dbSet = Context.Set<TEntity>();
+            _ =_dbSet.Add(entity);
         }
 
 

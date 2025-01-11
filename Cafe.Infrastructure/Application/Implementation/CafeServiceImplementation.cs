@@ -3,7 +3,7 @@ using Cafe.Infrastructure.Application.Interface;
 
 namespace Cafe.Infrastructure.Application.Implementation
 {
-    internal class CafeRepo : IBaseRepo<CafeM>, ICafe
+    internal class CafeRepo : IBaseRepo<CafeM,CafeContext>, ICafe
     {
         private readonly IMapper _mapper;
         public CafeRepo(BaseContext<CafeContext> context, IMapper mapper) : base(context)
@@ -16,9 +16,9 @@ namespace Cafe.Infrastructure.Application.Implementation
 
             base.Add(entity);
         }
-        public JsonResponse Add(CafeInDTO dto)
+        public async Task<JsonResponse> Add(CafeInDTO dto)
         {
-            CafeM cafe = _mapper.Map<CafeInDTO, CafeM>(dto);
+            CafeM cafe =  _mapper.Map<CafeInDTO, CafeM>(dto);
             // all validation before add
             Add(cafe);
             // adding owner in staff table
@@ -26,9 +26,9 @@ namespace Cafe.Infrastructure.Application.Implementation
             {
 
                 Employee staff = new Employee(dto.StaffName, dto.Email, dto.Password, dto.PhoneNo, cafe, cafe.EntryBy);
-                _ = Context.Set<Employee>().Add(staff);
+                _ = await Context.Set<Employee>().AddAsync(staff);
             }
-            _ = Context.SaveChanges();
+            _ =await  Context.SaveChangesAsync();
             return new JsonResponse().SuccessResponse();
         }
     }

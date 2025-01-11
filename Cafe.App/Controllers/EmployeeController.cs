@@ -1,20 +1,32 @@
 ﻿
+
+
+
+
+
 namespace Cafe.App.Controllers
 {
-    public class EmployeeController : BaseController
+    [Route("api/[controller]")]
+
+    public class EmployeeController : BaseController<EmployeeDTO, EmployeeDTO>
     {
         private readonly IEmployee _employee;
         public EmployeeController(IEmployee employee)
         {
             _employee = employee;
         }
-        [HttpGet("GetAllEmployByCafe")]
-        public JsonResponse GetAllEmployByCafe(int CafeId)
+
+        public override Task<JsonResponse> Delete(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override async Task<JsonResponse> Get(string id)
         {
             JsonResponse response = new JsonResponse();
             try
             {
-                response = _employee.GetByIdAsync(CafeId);
+                response = await _employee.GetByIdAsync(int.Parse(id));
 
             }
             catch (Exception ex)
@@ -24,5 +36,19 @@ namespace Cafe.App.Controllers
             return response;
         }
 
+        public override async Task<JsonResponse> Get()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override  async Task<JsonResponse> Patch([FromBody] EmployeeDTO obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override async Task<JsonResponse> Post([FromBody] EmployeeDTO obj)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

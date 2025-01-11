@@ -1,8 +1,8 @@
 ﻿namespace Cafe.Infrastructure.Application.Implementation
 {
-    internal class EmployeeServiceImplimentation : IBaseRepo<CafeM>
+    internal class EmployeeServiceImplimentation : IBaseRepo<CafeM,CafeContext>
     {
-        public EmployeeServiceImplimentation(DbContext context) : base(context)
+        public EmployeeServiceImplimentation(BaseContext<CafeContext> context) : base(context)
         {
         }
 

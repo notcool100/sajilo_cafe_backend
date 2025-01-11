@@ -1,7 +1,7 @@
 ﻿namespace Cafe.Infrastructure.Application.Interface
 {
-    public interface IEmployee : IBaseInterface<Employee>
+    public interface IEmployee : IBaseInterface<Employee,CafeContext>
     {
-        JsonResponse GetByIdAsync(int CafeId);
+        Task<JsonResponse> GetByIdAsync(int CafeId);
     }
 }

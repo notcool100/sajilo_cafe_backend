@@ -1,7 +1,7 @@
 ﻿namespace Cafe.Infrastructure.Application.Interface
 {
-    public interface ICafe : IBaseInterface<CafeM>
+    public interface ICafe : IBaseInterface<CafeM, CafeContext>
     {
-        JsonResponse Add(CafeInDTO Cafe);
+        Task<JsonResponse> Add(CafeInDTO Cafe);
     }
 }

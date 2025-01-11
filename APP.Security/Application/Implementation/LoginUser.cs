@@ -4,7 +4,7 @@ using Security.Infrastructure.Domain.Users;
 
 namespace Security.Infrastructure.Application.Implementation
 {
-    public class LoginUser : IBaseRepo<User>
+    public class LoginUser : IBaseRepo<User,SecurityContext>
     {
         private readonly SecurityContext _context;
         private readonly IMapper _mapper;

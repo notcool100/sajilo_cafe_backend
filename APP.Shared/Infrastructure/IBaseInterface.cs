@@ -2,7 +2,10 @@
 
 namespace App.Shared.Infrastructure
 {
-    public interface IBaseInterface<TEntity> where TEntity : IAggregateRoot
+    public interface IBaseInterface<TEntity,TContext> 
+        where TEntity : IAggregateRoot
+        where TContext : BaseContext<TContext>, IAggregateRoot
+
     {
         void Add(TEntity entity);
 
