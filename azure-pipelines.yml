@@ -11,36 +11,36 @@ variables:
   publishPath: '$(build.artifactStagingDirectory)\WebApp'
 
 steps:
-
-
-
 - task: NuGetCommand@2
   inputs:
     command: 'restore'
-  
+
 - task: UseDotNet@2
   inputs:
     version: '8.x'
     performMultiLevelLookup: true
     includePreviewVersions: true
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'clean'
+# Clean the output folder
+- script: |
+    dotnet clean $(solution) -c $(buildConfiguration)
+  displayName: 'Clean build output'
 
+# Restore dependencies
 - task: DotNetCoreCLI@2
   inputs:
     command: 'restore'
 
-
+# Publish the project
 - task: DotNetCoreCLI@2
   inputs:
     command: 'publish'
     publishWebProjects: true
-    arguments: '-o $(publishPath) -v detailed'
+    arguments: '-o $(publishPath) -c $(buildConfiguration) --no-restore -v diag'
     zipAfterPublish: false
     modifyOutputPath: false
 
+# Publish build artifacts
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(publishPath)'
