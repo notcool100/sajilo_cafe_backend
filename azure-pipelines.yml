@@ -21,17 +21,17 @@ steps:
     performMultiLevelLookup: true
     includePreviewVersions: true
 
-# Clean the output folder
-- script: |
-    dotnet clean $(solution) -c $(buildConfiguration)
-  displayName: 'Clean build output'
-
 # Restore dependencies
 - task: DotNetCoreCLI@2
   inputs:
     command: 'restore'
 
-# Publish the project
+# Clean the solution
+- script: |
+    dotnet clean $(solution) -c $(buildConfiguration)
+  displayName: 'Clean build output'
+
+# Build and publish the project
 - task: DotNetCoreCLI@2
   inputs:
     command: 'publish'
