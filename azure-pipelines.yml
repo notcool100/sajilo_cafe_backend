@@ -5,7 +5,7 @@ pool:
   name: 'PCS'
 
 variables:
-  solution: 'sajilo_cafe_backend.sln'
+  solution: 'CAfe.App/CAfe.App.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   publishPath: '$(build.artifactStagingDirectory)\WebApp'
