@@ -13,24 +13,30 @@ variables:
 steps:
 - task: UseDotNet@2
   inputs:
+    packageType: 'sdk'
     version: '8.x'
-    includePreviewVersions: false
+    includePreviewVersions: true
 
-- task: NuGetToolInstaller@1
-
-- task: NuGetCommand@2
+- task: DotNetCoreCLI@2
   inputs:
     command: 'restore'
-    restoreSolution: '$(solution)'
-    feedsToUse: 'select'
+    projects: '**/*.csproj'
 
+- script: |
+    dotnet clean $(solution) -c $(buildConfiguration)
+  displayName: 'Clean build output'
 
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    projects: '$(solution)'
+    arguments: '--no-restore -c $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
   inputs:
     command: 'publish'
     publishWebProjects: true
-    arguments: '-o $(publishPath) -v detailed'
+    arguments: '-o $(publishPath) -c $(buildConfiguration) --no-restore'
     zipAfterPublish: false
     modifyOutputPath: false
 
