@@ -23,14 +23,24 @@ internal class Program
         });
 
         var app = builder.Build();
-      
-            app.UseSwagger( options=>
+        app.Use(async (context, next) =>
+        {
+            if (context.Request.Path == "/")
             {
-                options.RouteTemplate = "swagger/{documentName}/swagger.json";
-            });
+                context.Response.Redirect("/swagger");
+                return;
+            }
 
-            app.UseSwaggerUI();
-        
+            await next();
+        });
+
+
+        app.UseSwagger();
+        app.UseSwaggerUI(options =>
+        {
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+        });
+
 
         app.UseHttpsRedirection();
 
