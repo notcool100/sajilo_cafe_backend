@@ -7,7 +7,7 @@ namespace App.Shared
     {
         private readonly IConfiguration _configuration;
 
-        public DbSet<BaseM> Cafes { get; set; }
+  
         public BaseContext(DbContextOptions<BaseContext<TEntity>> options,IConfiguration configuration) : base(options)
         {
             _configuration = configuration;
