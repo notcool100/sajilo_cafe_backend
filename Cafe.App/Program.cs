@@ -1,3 +1,4 @@
+using App.Migrations;
 using Cafe.Infrastructure;
 using Scalar.AspNetCore;
 using Security.Infrastructure;
@@ -15,6 +16,7 @@ internal class Program
         builder.Services.AddSwaggerGen();
         builder.Services.AddSharedServices();
         builder.Services.AddCafeInfraServices();
+        builder.Services.AddMigrationInfraServices();
         builder.Services.AddSecurityInfraServices();
         builder.Services.Configure<RouteOptions>(RouteOptions =>
         {
